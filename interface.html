@@ -44,6 +44,7 @@
         color: var(--fg);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
       }
       a { color: inherit; text-decoration: none; }
       img { max-width: 100%; display: block; }
@@ -106,6 +107,10 @@
       .search input {
         flex: 1; border: 0; outline: 0; background: transparent;
       }
+      /* Hide native clear (X) so we only show our custom clear button */
+      .search input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; height: 0; width: 0; display: none; }
+      .search input::-webkit-search-decoration { -webkit-appearance: none; }
+      .search input::-ms-clear { display: none; width: 0; height: 0; }
       .search button {
         border: 0; background: var(--fg); color: var(--bg);
         padding: 8px 12px; border-radius: 10px; cursor: pointer;
@@ -156,6 +161,14 @@
       .menu-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: var(--fg); }
       .menu-item:hover { background: var(--accent); }
 
+      /* Phone preview modal */
+      .phone-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(2px); display: none; place-items: center; z-index: 120; }
+      .phone-overlay[aria-hidden="false"] { display: grid; }
+      .phone-frame { width: 375px; height: 740px; background: #000; border-radius: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 12px solid #111; position: relative; overflow: hidden; }
+      .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 24px; background: #111; border-bottom-left-radius: 14px; border-bottom-right-radius: 14px; z-index: 2; }
+      .phone-iframe { position: absolute; inset: 0; border: 0; width: 100%; height: 100%; background: #000; }
+      .phone-close { position: absolute; top: -48px; right: 0; background: #fff; color: #111; border: 0; border-radius: 10px; padding: 8px 10px; cursor: pointer; }
+
       /* Hero */
       .hero {
         background: #000000;
@@ -189,6 +202,7 @@
         position: absolute; inset: 0; display: grid; place-items: center; color: #64748b;
         font-weight: 600; letter-spacing: 0.2px;
       }
+      .hero-inline-logo { display: none; vertical-align: middle; border-radius: 8px; box-shadow: var(--shadow); }
 
       /* Layout */
       .layout { display: grid; grid-template-columns: 260px 1fr; gap: 24px; padding: 28px 0 40px; }
@@ -552,7 +566,7 @@
       @media (max-width: 980px) {
         .header-inner { grid-template-columns: auto 1fr auto; }
         .brand-name { font-size: 16px; }
-        nav.primary { display: none; }
+        nav.primary { display: flex; gap: 10px; }
         .hamburger { display: inline-flex; }
         .hero-inner { grid-template-columns: 1fr; }
         .layout { grid-template-columns: 1fr; }
@@ -562,9 +576,66 @@
         .footer-grid { grid-template-columns: 1fr 1fr; }
       }
       @media (max-width: 640px) {
-        .grid { grid-template-columns: 1fr; }
+        .container { padding: 0 12px; }
+        .hero h1 { font-size: 16px; line-height: 1.2; }
+        .hero-title { position: relative; display: inline-block; }
+        .hero-title::after {
+          content: '';
+          position: absolute; left: 0; right: 0; bottom: -4px; height: 2px;
+          background: linear-gradient(90deg, var(--brand), transparent, var(--brand));
+          background-size: 200% 100%;
+          animation: underlineSlide 3.5s linear infinite;
+          opacity: 0.6;
+        }
+        @keyframes underlineSlide {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 200% 50%; }
+        }
+        .hero p { font-size: 12px; }
+        .cta-row { gap: 8px; }
+        .btn { padding: 6px 10px; border-radius: 8px; font-size: 12px; }
+        .btn.primary { padding: 6px 10px; }
+        /* Compact header */
+        .header-inner { padding: 8px 0; gap: 8px; }
+        .brand-logo { width: 24px; height: 24px; display: block; }
+        .brand { min-width: 28px; }
+        .brand-name { display: none; }
+        .search { padding: 4px 6px; border-radius: 10px; width: auto; max-width: 48vw; flex: 0 1 48vw; min-width: 120px; }
+        .search input { font-size: 12px; }
+        .search button { padding: 6px 8px; border-radius: 8px; font-size: 12px; }
+        .search button[type="submit"] { display: none; }
+        .clear-btn { padding: 4px; }
+        .icon-btn { padding: 6px; border-radius: 8px; }
+        .icon-btn svg { width: 16px; height: 16px; }
+        nav.primary { gap: 6px; }
+        .cart-count { padding: 1px 6px; font-size: 10px; }
+        .search svg { width: 16px; height: 16px; }
+        .grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .card { border-radius: 10px; }
+        .media { aspect-ratio: 1/1; }
+        .info { padding: 8px; }
+        .title { font-size: 14px; }
+        .subtitle { font-size: 12px; }
+        .price-row-card { font-size: 14px; }
         .footer-grid { grid-template-columns: 1fr; }
+        body { padding-bottom: 64px; }
+        .mobile-tabbar { display: grid; }
+        .hero-media { display: none; }
+        .hero-inner { display: flex; flex-direction: column; gap: 16px; }
+        .hero-inner > div:first-child { display: flex; flex-direction: column; gap: 8px; }
+        .hero-inner h1 { font-size: 14px; line-height: 1.1; position: relative; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; padding-right: 86px; margin-bottom: 8px; min-height: 72px; }
+        .hero-inner h1::after { content: ''; position: absolute; left: 0; right: 86px; bottom: -4px; height: 2px; background: linear-gradient(90deg, var(--brand), transparent, var(--brand)); background-size: 200% 100%; animation: underlineSlide 3.5s linear infinite; opacity: 0.6; }
+        .hero-inner h1::before { content: ''; display: block; width: 70px; height: 70px; background: url('display/hands to heaven logo.jpg') center/cover; border-radius: 12px; box-shadow: var(--shadow); position: absolute; right: 8px; top: 2px; z-index: 1; }
+        .hero-inner p { font-size: 11px; margin: 20px 0 12px; }
+        .hero-inline-logo { display: inline-block; width: 28px; height: 28px; margin-left: 6px; vertical-align: middle; }
       }
+      /* Mobile tab bar */
+      .mobile-tabbar { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; background: var(--card); border-top: 1px solid var(--border); box-shadow: var(--shadow); grid-template-columns: repeat(4, 1fr); }
+      .mobile-tabbar button { background: none; border: none; padding: 10px 0; display: grid; place-items: center; gap: 6px; color: var(--muted); }
+      .mobile-tabbar button:active { transform: translateY(1px); }
+      .mobile-tabbar .active { color: var(--fg); }
+      .mobile-badge { position: relative; }
+      .mobile-badge span { position: absolute; top: -4px; right: -10px; background: var(--brand); color: #fff; border-radius: 999px; padding: 2px 6px; font-size: 11px; font-weight: 800; }
     </style>
   </head>
   <body>
@@ -604,6 +675,10 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 12v6m0-12h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                 About
               </a>
+              <button type="button" class="menu-item" id="openPhoneView" role="menuitem" style="width:100%; text-align:left; background:none; border:none;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="18" r="1" fill="currentColor"/></svg>
+                Phone view
+              </button>
             </div>
           </div>
         </nav>
@@ -800,6 +875,33 @@
     <!-- Overlays / Drawers -->
     <div id="overlay" class="overlay" aria-hidden="true"></div>
     <div id="toaster" class="toaster" aria-live="polite" aria-atomic="true"></div>
+    <!-- Phone preview modal -->
+    <div id="phoneOverlay" class="phone-overlay" aria-hidden="true" aria-label="Phone preview modal">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <button class="phone-close" id="closePhoneView">Close</button>
+        <iframe class="phone-iframe" id="phoneIframe" title="Phone preview"></iframe>
+      </div>
+    </div>
+    <!-- Mobile tab bar -->
+    <nav class="mobile-tabbar" aria-label="Bottom navigation">
+      <button id="tabHome" class="active" aria-label="Home">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 11l9-7 9 7v8a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-4H9v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span style="font-size:12px;">Home</span>
+      </button>
+      <button id="tabSearch" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-3.8-3.8M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span style="font-size:12px;">Search</span>
+      </button>
+      <button id="tabProducts" aria-label="Products">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span style="font-size:12px;">Products</span>
+      </button>
+      <button id="tabCart" class="mobile-badge" aria-label="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 3h2l1.5 12h11L21 6H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="20" r="1.5" fill="currentColor"/><circle cx="17" cy="20" r="1.5" fill="currentColor"/></svg>
+        <span id="cartCountMobile">0</span>
+      </button>
+    </nav>
 
     <aside id="cartDrawer" class="drawer" aria-label="Shopping cart" aria-hidden="true">
       <div class="drawer-header">
@@ -841,6 +943,10 @@
       const moreMenu = document.getElementById('moreMenu');
       const moreMenuBtn = document.getElementById('moreMenuBtn');
       const toaster = document.getElementById('toaster');
+      const phoneOverlay = document.getElementById('phoneOverlay');
+      const openPhoneView = document.getElementById('openPhoneView');
+      const closePhoneView = document.getElementById('closePhoneView');
+      const phoneIframe = document.getElementById('phoneIframe');
 
       year.textContent = new Date().getFullYear();
 
@@ -996,6 +1102,23 @@
         }));
       }
 
+      function filterGrid(query) {
+        const q = query.trim().toLowerCase();
+        const cards = document.querySelectorAll('.card');
+        if (q.length === 0) {
+          cards.forEach(card => { card.style.display = 'flex'; card.style.opacity = '1'; card.style.transform = 'translateY(0)'; });
+          return;
+        }
+        cards.forEach(card => {
+          const title = card.querySelector('.title').textContent.toLowerCase();
+          const subtitle = card.querySelector('.subtitle').textContent.toLowerCase();
+          const matches = title.includes(q) || subtitle.includes(q);
+          card.style.display = matches ? 'flex' : 'none';
+          card.style.opacity = matches ? '1' : '0';
+          card.style.transform = matches ? 'translateY(0)' : 'translateY(20px)';
+        });
+      }
+
       function renderSuggestions(query) {
         const products = getAllProducts();
         const q = query.toLowerCase();
@@ -1033,27 +1156,22 @@
         clearTimeout(searchTimeout);
         const value = e.target.value.trim();
         
-        if (value.length > 2) {
+        if (value.length > 0) {
           searchTimeout = setTimeout(() => {
-            // Live suggestions
+            // Live suggestions + filter grid
             renderSuggestions(value);
+            filterGrid(value);
             searchForm.classList.add('open');
           }, 300);
         } else if (value.length === 0) {
           // Show all cards
-          const cards = document.querySelectorAll('.card');
-          cards.forEach(card => {
-            card.style.display = 'flex';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          });
+          filterGrid('');
           searchForm.classList.remove('open');
         }
       });
 
       clearSearch?.addEventListener('click', () => {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => { card.style.display = 'flex'; card.style.opacity = '1'; card.style.transform = 'translateY(0)'; });
+        filterGrid('');
         searchInput.value = '';
         searchForm.classList.remove('open');
         searchInput.focus();
@@ -1062,17 +1180,19 @@
       // Submit search to filter grid
       searchForm?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const value = searchInput.value.trim().toLowerCase();
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-          const title = card.querySelector('.title').textContent.toLowerCase();
-          const subtitle = card.querySelector('.subtitle').textContent.toLowerCase();
-          const matches = value.length === 0 || title.includes(value) || subtitle.includes(value);
-          card.style.display = matches ? 'flex' : 'none';
-          card.style.opacity = matches ? '1' : '0';
-          card.style.transform = matches ? 'translateY(0)' : 'translateY(20px)';
-        });
+        const value = searchInput.value.trim();
+        filterGrid(value);
         searchForm.classList.remove('open');
+      });
+
+      // Apply current filter when focusing the search bar
+      searchInput?.addEventListener('focus', () => {
+        const value = searchInput.value.trim();
+        if (value.length > 0) {
+          filterGrid(value);
+          renderSuggestions(value);
+          searchForm.classList.add('open');
+        }
       });
 
       // Enhanced newsletter with success animation
@@ -1204,6 +1324,34 @@
         if (e.key === 'Escape') {
           setOpen(cartDrawer, false);
         }
+      });
+
+      // Mobile tab actions
+      document.getElementById('tabHome')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      document.getElementById('tabSearch')?.addEventListener('click', () => searchInput?.focus());
+      document.getElementById('tabProducts')?.addEventListener('click', () => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }));
+      document.getElementById('tabCart')?.addEventListener('click', () => setOpen(cartDrawer, true));
+
+      // Phone view modal
+      function setPhoneOpen(isOpen) {
+        phoneOverlay.setAttribute('aria-hidden', String(!isOpen));
+        if (isOpen) {
+          // Load current page into iframe
+          phoneIframe.src = window.location.href;
+        } else {
+          phoneIframe.src = '';
+        }
+      }
+      openPhoneView?.addEventListener('click', () => {
+        setPhoneOpen(true);
+        setMoreMenuOpen(false);
+      });
+      closePhoneView?.addEventListener('click', () => setPhoneOpen(false));
+      phoneOverlay?.addEventListener('click', (e) => {
+        if (e.target === phoneOverlay) setPhoneOpen(false);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setPhoneOpen(false);
       });
 
       // Initialize everything
