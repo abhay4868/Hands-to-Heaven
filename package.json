@@ -1,0 +1,18 @@
+{
+  "name": "hands-to-heaven-main",
+  "version": "1.0.0",
+  "description": "Resin art Ecommerce",
+  "main": "index.js",
+  "scripts": {
+    "dev": "live-server --port=3000 --open=interface.html",
+    "start": "live-server --port=3000 --open=interface.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

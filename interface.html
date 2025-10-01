@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hands to Heaven — Shop</title>
+    <meta name="description" content="Hands to Heaven official store. Explore curated collections with a serene, modern experience." />
+    <meta name="color-scheme" content="light dark" />
+
+    <style>
+      :root {
+        --bg: #ffffff;
+        --fg: #111111;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --brand: #5b7cfa;
+        --brand-600: #4a67d8;
+        --accent: #f5f7ff;
+        --card: #ffffff;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
+        --shadow: 0 1px 2px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0c10;
+          --fg: #e5e7eb;
+          --muted: #9ca3af;
+          --border: #1f2937;
+          --brand: #6e8aff;
+          --brand-600: #5b74e6;
+          --accent: #0f172a;
+          --card: #0f1117;
+          --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 6px 24px rgba(0,0,0,0.35);
+        }
+      }
+
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background: var(--bg);
+        color: var(--fg);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      a { color: inherit; text-decoration: none; }
+      img { max-width: 100%; display: block; }
+      button { font: inherit; color: inherit; }
+      input, select { font: inherit; color: inherit; }
+
+      .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+      .visually-hidden { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+      /* Top notice */
+      .notice {
+        background: linear-gradient(90deg, var(--brand), var(--brand-600));
+        color: white;
+        font-weight: 600;
+        text-align: center;
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+
+      /* Header */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: saturate(180%) blur(8px);
+      }
+      .header-inner {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 0;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+      }
+      .brand-mark {
+        width: 36px; height: 36px; border-radius: 10px;
+        background: radial-gradient(120% 120% at 30% 20%, #9fb3ff 0%, var(--brand) 35%, #3a4db8 100%);
+        box-shadow: var(--shadow);
+      }
+      .brand-name { font-size: 18px; text-transform: uppercase; }
+
+      .search {
+        display: flex; align-items: center; gap: 8px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px; padding: 8px 12px;
+        box-shadow: var(--shadow);
+      }
+      .search input {
+        flex: 1; border: 0; outline: 0; background: transparent;
+      }
+      .search button {
+        border: 0; background: var(--fg); color: var(--bg);
+        padding: 8px 12px; border-radius: 10px; cursor: pointer;
+      }
+
+      nav.primary {
+        display: flex; gap: 18px; justify-content: flex-end; align-items: center;
+      }
+      .nav-link { padding: 8px 10px; color: var(--muted); }
+      .nav-link:hover { color: var(--fg); }
+      .icon-btn { background: none; border: 1px solid var(--border); border-radius: 10px; padding: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+      .cart-count { background: var(--brand); color: #fff; border-radius: 999px; padding: 2px 8px; font-size: 12px; font-weight: 700; }
+      .hamburger { display: none; }
+
+      /* Hero */
+      .hero {
+        background: radial-gradient(1200px 400px at 50% -50%, var(--accent), transparent 60%),
+                    linear-gradient(180deg, rgba(91,124,250,0.07), transparent 40%);
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-inner {
+        display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; padding: 48px 0;
+      }
+      .hero h1 { font-size: 40px; line-height: 1.1; margin: 0 0 12px; }
+      .hero p { color: var(--muted); margin: 0 0 20px; }
+      .cta-row { display: flex; gap: 12px; align-items: center; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--border);
+        padding: 12px 16px; border-radius: 12px; cursor: pointer; background: var(--card);
+      }
+      .btn.primary { background: var(--brand); color: white; border-color: transparent; }
+      .btn.primary:hover { background: var(--brand-600); }
+      .meta { display: flex; gap: 16px; color: var(--muted); font-size: 14px; margin-top: 12px; }
+
+      .hero-media {
+        aspect-ratio: 4/3; border-radius: 16px; overflow: hidden; position: relative;
+        background: linear-gradient(135deg, #e9edff, #f6f7ff);
+        box-shadow: var(--shadow);
+      }
+      .hero-media::after {
+        content: "Your collection image here";
+        position: absolute; inset: 0; display: grid; place-items: center; color: #64748b;
+        font-weight: 600; letter-spacing: 0.2px;
+      }
+
+      /* Layout */
+      .layout { display: grid; grid-template-columns: 260px 1fr; gap: 24px; padding: 28px 0 40px; }
+
+      /* Filters */
+      .filters { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; height: fit-content; box-shadow: var(--shadow); position: sticky; top: 82px; }
+      .filters h3 { margin: 4px 0 12px; font-size: 16px; }
+      .filter-group { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
+      .checkbox { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+      .price-row { display: flex; gap: 10px; }
+      .price-row input { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: transparent; }
+
+      /* Product grid */
+      .products-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); }
+      .toolbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); gap: 12px; flex-wrap: wrap; }
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 16px; }
+      .card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; }
+      .media { aspect-ratio: 1/1; background: linear-gradient(135deg, #eef2ff, #f8fafc); position: relative; }
+      .media::after { content: "Product image"; position: absolute; inset: 0; display: grid; place-items: center; color: #64748b; font-weight: 600; }
+      .info { padding: 12px; display: grid; gap: 6px; }
+      .title { font-weight: 700; }
+      .subtitle { color: var(--muted); font-size: 14px; }
+      .price-row-card { display: flex; justify-content: space-between; align-items: center; }
+      .add-btn { background: var(--brand); color: #fff; border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; }
+      .add-btn:hover { background: var(--brand-600); }
+
+      /* Newsletter */
+      .newsletter { margin: 40px 0; border: 1px solid var(--border); border-radius: 16px; padding: 24px; background: var(--card); display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 16px; box-shadow: var(--shadow); }
+      .newsletter form { display: flex; gap: 10px; }
+      .newsletter input { flex: 1; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: transparent; }
+      .newsletter button { padding: 12px 16px; border-radius: 12px; border: none; background: var(--brand); color: #fff; cursor: pointer; }
+
+      /* Footer */
+      footer { border-top: 1px solid var(--border); padding: 28px 0; }
+      .footer-grid { display: grid; grid-template-columns: 1.2fr repeat(3, 1fr); gap: 24px; }
+      .muted { color: var(--muted); }
+
+      /* Drawers */
+      .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+      .drawer { position: fixed; top: 0; right: 0; height: 100%; width: 360px; max-width: 90vw; background: var(--card); border-left: 1px solid var(--border); transform: translateX(100%); transition: transform .25s ease; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+      .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+      .drawer-body { padding: 14px 16px; overflow: auto; }
+      .drawer-footer { margin-top: auto; padding: 14px 16px; border-top: 1px solid var(--border); display: grid; gap: 8px; }
+      .open .overlay { opacity: 1; pointer-events: auto; }
+      .open .drawer { transform: translateX(0); }
+
+      /* Mobile */
+      @media (max-width: 980px) {
+        .header-inner { grid-template-columns: auto 1fr auto; }
+        .brand-name { font-size: 16px; }
+        nav.primary { display: none; }
+        .hamburger { display: inline-flex; }
+        .hero-inner { grid-template-columns: 1fr; }
+        .layout { grid-template-columns: 1fr; }
+        .filters { position: static; }
+        .grid { grid-template-columns: repeat(2, 1fr); }
+        .newsletter { grid-template-columns: 1fr; }
+        .footer-grid { grid-template-columns: 1fr 1fr; }
+      }
+      @media (max-width: 640px) {
+        .grid { grid-template-columns: 1fr; }
+        .footer-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="notice">Free shipping over $75 • Easy 30-day returns</div>
+    <header>
+      <div class="container header-inner">
+        <button class="icon-btn hamburger" id="openMobileNav" aria-label="Open menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <a class="brand" href="#" aria-label="Hands to Heaven home">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div class="brand-name">Hands to Heaven</div>
+        </a>
+        <form class="search" id="searchForm" role="search" aria-label="Site">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-3.8-3.8M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="Search products" aria-label="Search products" />
+          <button type="submit">Search</button>
+        </form>
+        <nav class="primary" aria-label="Primary">
+          <a class="nav-link" href="#">New</a>
+          <a class="nav-link" href="#">Best Sellers</a>
+          <a class="nav-link" href="#">Collections</a>
+          <a class="nav-link" href="#">About</a>
+          <button class="icon-btn" id="openCart" aria-label="Open cart">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 3h2l1.5 12h11L21 6H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="20" r="1.5" fill="currentColor"/><circle cx="17" cy="20" r="1.5" fill="currentColor"/></svg>
+            <span class="cart-count" id="cartCount">2</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-inner">
+          <div>
+            <h1>Elevate your everyday with serene essentials</h1>
+            <p>Thoughtfully crafted pieces to bring calm, comfort, and quiet luxury to your space.</p>
+            <div class="cta-row">
+              <a href="#products" class="btn primary">Shop now</a>
+              <a href="#collections" class="btn">Browse collections</a>
+            </div>
+            <div class="meta">
+              <span>Carbon-neutral shipping</span>
+              <span>Ethically sourced</span>
+              <span>Secure checkout</span>
+            </div>
+          </div>
+          <div class="hero-media" aria-label="Hero image placeholder"></div>
+        </div>
+      </section>
+
+      <div class="container layout" id="products">
+        <aside class="filters" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="filter-group">
+            <div class="subtitle">Category</div>
+            <label class="checkbox"><input type="checkbox" /> Home</label>
+            <label class="checkbox"><input type="checkbox" /> Wellness</label>
+            <label class="checkbox"><input type="checkbox" /> Apparel</label>
+          </div>
+          <div class="filter-group">
+            <div class="subtitle">Price</div>
+            <div class="price-row">
+              <input type="number" placeholder="Min" min="0" />
+              <input type="number" placeholder="Max" min="0" />
+            </div>
+          </div>
+          <div class="filter-group">
+            <div class="subtitle">Color</div>
+            <label class="checkbox"><input type="checkbox" /> Sand</label>
+            <label class="checkbox"><input type="checkbox" /> Fog</label>
+            <label class="checkbox"><input type="checkbox" /> Forest</label>
+          </div>
+          <button class="btn" style="margin-top:12px;width:100%">Apply filters</button>
+        </aside>
+
+        <section class="products-card">
+          <div class="toolbar">
+            <div class="subtitle">Showing 12 products</div>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <label for="sort" class="subtitle">Sort</label>
+              <select id="sort" style="padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:transparent;">
+                <option>Featured</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+                <option>Newest</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid">
+            <!-- Product cards (placeholders). Replace media div with <img src="..." alt="..."/> -->
+            <article class="card">
+              <div class="media" aria-label="Product image placeholder"></div>
+              <div class="info">
+                <div class="title">Calm Ceramic Mug</div>
+                <div class="subtitle">Sand • 12oz</div>
+                <div class="price-row-card"><div>$24</div><button class="add-btn" data-add-to-cart>Add</button></div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="media"></div>
+              <div class="info">
+                <div class="title">Soft Cotton Throw</div>
+                <div class="subtitle">Fog • 50x60"</div>
+                <div class="price-row-card"><div>$68</div><button class="add-btn" data-add-to-cart>Add</button></div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="media"></div>
+              <div class="info">
+                <div class="title">Scented Candle</div>
+                <div class="subtitle">Forest • 8oz</div>
+                <div class="price-row-card"><div>$32</div><button class="add-btn" data-add-to-cart>Add</button></div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="media"></div>
+              <div class="info">
+                <div class="title">Linen Shirt</div>
+                <div class="subtitle">Natural • M</div>
+                <div class="price-row-card"><div>$58</div><button class="add-btn" data-add-to-cart>Add</button></div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="media"></div>
+              <div class="info">
+                <div class="title">Stoneware Vase</div>
+                <div class="subtitle">Ivory</div>
+                <div class="price-row-card"><div>$44</div><button class="add-btn" data-add-to-cart>Add</button></div>
+              </div>
+            </article>
+            <article class="card">
+              <div class="media"></div>
+              <div class="info">
+                <div class="title">Wellness Journal</div>
+                <div class="subtitle">Undated • A5</div>
+                <div class="price-row-card"><div>$18</div><button class="add-btn" data-add-to-cart>Add</button></div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <div class="container">
+        <section class="newsletter">
+          <div>
+            <h2>Join the Inner Circle</h2>
+            <p class="muted">Get early access, exclusive offers, and calm in your inbox.</p>
+          </div>
+          <form id="newsletterForm">
+            <input type="email" placeholder="Enter your email" aria-label="Email" required />
+            <button type="submit">Subscribe</button>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <div>
+          <div class="brand" style="margin-bottom:8px;">
+            <div class="brand-mark" aria-hidden="true"></div>
+            <div class="brand-name">Hands to Heaven</div>
+          </div>
+          <div class="muted">Quiet luxury for everyday living.</div>
+        </div>
+        <div>
+          <div class="title">Shop</div>
+          <div><a class="muted" href="#">New arrivals</a></div>
+          <div><a class="muted" href="#">Best sellers</a></div>
+          <div><a class="muted" href="#">Gift cards</a></div>
+        </div>
+        <div>
+          <div class="title">Company</div>
+          <div><a class="muted" href="#">About</a></div>
+          <div><a class="muted" href="#">Sustainability</a></div>
+          <div><a class="muted" href="#">Careers</a></div>
+        </div>
+        <div>
+          <div class="title">Help</div>
+          <div><a class="muted" href="#">Shipping</a></div>
+          <div><a class="muted" href="#">Returns</a></div>
+          <div><a class="muted" href="#">Contact</a></div>
+        </div>
+      </div>
+      <div class="container" style="margin-top:16px; color:var(--muted); font-size:14px;">© <span id="year"></span> Hands to Heaven. All rights reserved.</div>
+    </footer>
+
+    <!-- Overlays / Drawers -->
+    <div id="overlay" class="overlay" aria-hidden="true"></div>
+
+    <aside id="cartDrawer" class="drawer" aria-label="Shopping cart" aria-hidden="true">
+      <div class="drawer-header">
+        <div class="title">Your cart</div>
+        <button class="icon-btn" id="closeCart" aria-label="Close cart">Close</button>
+      </div>
+      <div class="drawer-body" id="cartItems">
+        <div class="muted">Your cart is empty.</div>
+      </div>
+      <div class="drawer-footer">
+        <div style="display:flex; justify-content:space-between;">
+          <div class="subtitle">Subtotal</div>
+          <div id="subtotal">$0.00</div>
+        </div>
+        <button class="btn primary" style="justify-content:center;">Checkout</button>
+      </div>
+    </aside>
+
+    <aside id="mobileNav" class="drawer" aria-label="Mobile navigation" aria-hidden="true" style="width:300px;">
+      <div class="drawer-header">
+        <div class="title">Menu</div>
+        <button class="icon-btn" id="closeMobileNav" aria-label="Close menu">Close</button>
+      </div>
+      <div class="drawer-body">
+        <nav style="display:grid; gap:8px;">
+          <a class="nav-link" href="#">New</a>
+          <a class="nav-link" href="#">Best Sellers</a>
+          <a class="nav-link" href="#">Collections</a>
+          <a class="nav-link" href="#">About</a>
+          <button class="icon-btn" id="openCartMobile" aria-label="Open cart">Cart <span class="cart-count" id="cartCountMobile">2</span></button>
+        </nav>
+      </div>
+    </aside>
+
+    <script>
+      const overlay = document.getElementById('overlay');
+      const cartDrawer = document.getElementById('cartDrawer');
+      const mobileNav = document.getElementById('mobileNav');
+      const openCart = document.getElementById('openCart');
+      const openCartMobile = document.getElementById('openCartMobile');
+      const closeCart = document.getElementById('closeCart');
+      const openMobileNav = document.getElementById('openMobileNav');
+      const closeMobileNav = document.getElementById('closeMobileNav');
+      const cartCount = document.getElementById('cartCount');
+      const cartCountMobile = document.getElementById('cartCountMobile');
+      const cartItems = document.getElementById('cartItems');
+      const subtotal = document.getElementById('subtotal');
+      const year = document.getElementById('year');
+      const searchForm = document.getElementById('searchForm');
+      const newsletterForm = document.getElementById('newsletterForm');
+
+      year.textContent = new Date().getFullYear();
+
+      function setOpen(drawer, isOpen) {
+        const root = document.body;
+        if (isOpen) {
+          root.classList.add('open');
+          drawer.setAttribute('aria-hidden', 'false');
+          overlay.setAttribute('aria-hidden', 'false');
+        } else {
+          drawer.setAttribute('aria-hidden', 'true');
+          overlay.setAttribute('aria-hidden', 'true');
+          // Wait for transition then remove open
+          setTimeout(() => document.body.classList.remove('open'), 200);
+        }
+      }
+
+      openCart?.addEventListener('click', () => setOpen(cartDrawer, true));
+      openCartMobile?.addEventListener('click', () => { setOpen(mobileNav, false); setTimeout(() => setOpen(cartDrawer, true), 100); });
+      closeCart?.addEventListener('click', () => setOpen(cartDrawer, false));
+      openMobileNav?.addEventListener('click', () => setOpen(mobileNav, true));
+      closeMobileNav?.addEventListener('click', () => setOpen(mobileNav, false));
+      overlay.addEventListener('click', () => { setOpen(cartDrawer, false); setOpen(mobileNav, false); });
+
+      // Demo cart state
+      const cart = { items: [], total: 0 };
+      function renderCart() {
+        if (cart.items.length === 0) {
+          cartItems.innerHTML = '<div class="muted">Your cart is empty.</div>';
+          subtotal.textContent = '$0.00';
+          cartCount.textContent = '0';
+          cartCountMobile.textContent = '0';
+          return;
+        }
+        let html = '';
+        cart.total = 0;
+        cart.items.forEach((it, idx) => {
+          cart.total += it.price;
+          html += `\n            <div style=\"display:flex; gap:12px; align-items:center; border-bottom:1px solid var(--border); padding:10px 0;\">\n              <div style=\"width:64px; height:64px; background:linear-gradient(135deg,#eef2ff,#f8fafc); border-radius:8px;\"></div>\n              <div style=\"flex:1;\">\n                <div class=\"title\">${it.title}</div>\n                <div class=\"muted\" style=\"font-size:14px;\">${it.variant}</div>\n              </div>\n              <div>$${it.price.toFixed(2)}</div>\n              <button class=\"icon-btn\" aria-label=\"Remove\" data-remove-index=\"${idx}\">Remove</button>\n            </div>\n          `;
+        });
+        cartItems.innerHTML = html;
+        subtotal.textContent = `$${cart.total.toFixed(2)}`;
+        cartCount.textContent = String(cart.items.length);
+        cartCountMobile.textContent = String(cart.items.length);
+        [...cartItems.querySelectorAll('[data-remove-index]')].forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const idx = Number(e.currentTarget.getAttribute('data-remove-index'));
+            cart.items.splice(idx, 1);
+            renderCart();
+          });
+        });
+      }
+
+      document.querySelectorAll('[data-add-to-cart]').forEach((btn, i) => {
+        btn.addEventListener('click', () => {
+          const card = btn.closest('.card');
+          const title = card.querySelector('.title').textContent.trim();
+          const variant = card.querySelector('.subtitle').textContent.trim();
+          const priceText = card.querySelector('.price-row-card div').textContent.replace('$','').trim();
+          const price = Number(priceText);
+          cart.items.push({ title, variant, price });
+          renderCart();
+          setOpen(cartDrawer, true);
+        });
+      });
+
+      renderCart();
+
+      searchForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const value = searchForm.querySelector('input').value.trim();
+        alert(value ? `Search for: ${value}` : 'Enter a search term');
+      });
+
+      newsletterForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = newsletterForm.querySelector('input').value.trim();
+        alert(email ? `Subscribed: ${email}` : 'Enter a valid email');
+      });
+    </script>
+  </body>
+  </html>
+
+
