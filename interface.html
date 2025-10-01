@@ -97,8 +97,11 @@
         display: flex; align-items: center; gap: 8px;
         background: var(--card);
         border: 1px solid var(--border);
-        border-radius: 12px; padding: 8px 12px;
+        border-radius: 14px; padding: 8px 12px;
         box-shadow: var(--shadow);
+        position: relative;
+        overflow: visible;
+        transition: box-shadow .25s ease, transform .15s ease;
       }
       .search input {
         flex: 1; border: 0; outline: 0; background: transparent;
@@ -107,6 +110,25 @@
         border: 0; background: var(--fg); color: var(--bg);
         padding: 8px 12px; border-radius: 10px; cursor: pointer;
       }
+      .search:focus-within {
+        box-shadow: 0 10px 30px rgba(91,124,250,0.35), 0 0 0 2px rgba(91,124,250,0.35);
+        transform: translateY(-1px);
+      }
+      .clear-btn { background: none; border: none; padding: 6px; cursor: pointer; color: var(--muted); border-radius: 8px; }
+      .clear-btn:hover { background: var(--accent); color: var(--fg); }
+
+      /* Search dropdown */
+      .search-dropdown { position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); display: none; overflow: hidden; z-index: 90; }
+      .search.open .search-dropdown { display: block; }
+      .search-list { max-height: 320px; overflow: auto; padding: 6px; display: grid; gap: 6px; }
+      .search-item { display: grid; grid-template-columns: 44px 1fr auto; gap: 10px; align-items: center; padding: 8px; border-radius: 10px; cursor: pointer; border: 1px solid transparent; }
+      .search-item:hover, .search-item[aria-selected="true"] { background: var(--accent); border-color: var(--border); }
+      .search-thumb { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; box-shadow: var(--shadow); }
+      .search-title { font-weight: 700; }
+      .search-sub { color: var(--muted); font-size: 12px; }
+      .search-price { font-weight: 700; }
+
+      .highlight { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 12px; }
 
       nav.primary {
         display: flex; gap: 18px; justify-content: flex-end; align-items: center;
@@ -556,7 +578,13 @@
         <form class="search" id="searchForm" role="search" aria-label="Site">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-3.8-3.8M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <input type="search" placeholder="Search products" aria-label="Search products" />
+          <button type="button" id="clearSearch" class="clear-btn" aria-label="Clear search" title="Clear">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
           <button type="submit">Search</button>
+          <div class="search-dropdown" id="searchDropdown">
+            <div class="search-list" id="searchList"></div>
+          </div>
         </form>
         <nav class="primary" aria-label="Primary">
           <button class="icon-btn" id="openCart" aria-label="Open cart">
@@ -805,6 +833,9 @@
       const subtotal = document.getElementById('subtotal');
       const year = document.getElementById('year');
       const searchForm = document.getElementById('searchForm');
+      const clearSearch = document.getElementById('clearSearch');
+      const searchDropdown = document.getElementById('searchDropdown');
+      const searchList = document.getElementById('searchList');
       const newsletterForm = document.getElementById('newsletterForm');
       const adsBottom = document.getElementById('adsBottom');
       const moreMenu = document.getElementById('moreMenu');
@@ -845,23 +876,24 @@
 
       renderAds(adsBottom);
 
-      // Dropdown interactions
-      function toggleMoreMenu(force) {
-        const isOpen = force ?? moreMenu.getAttribute('data-open') === 'true';
-        const next = !isOpen;
-        moreMenu.setAttribute('data-open', String(next));
-        moreMenuBtn.setAttribute('aria-expanded', String(next));
+      // Dropdown interactions (robust toggle + explicit close)
+      function setMoreMenuOpen(open) {
+        moreMenu.setAttribute('data-open', String(!!open));
+        moreMenuBtn.setAttribute('aria-expanded', String(!!open));
       }
       moreMenuBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
-        toggleMoreMenu();
+        const current = moreMenu.getAttribute('data-open') === 'true';
+        setMoreMenuOpen(!current);
       });
       document.addEventListener('click', (e) => {
-        if (!moreMenu.contains(e.target)) toggleMoreMenu(false);
+        if (!moreMenu.contains(e.target)) setMoreMenuOpen(false);
       });
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') toggleMoreMenu(false);
+        if (e.key === 'Escape') setMoreMenuOpen(false);
       });
+      // Close dropdown when interacting with search
+      searchForm?.addEventListener('focusin', () => setMoreMenuOpen(false));
 
       function setOpen(drawer, isOpen) {
         const root = document.body;
@@ -954,21 +986,58 @@
       const searchInput = searchForm?.querySelector('input');
       let searchTimeout;
       
+      function getAllProducts() {
+        return Array.from(document.querySelectorAll('.card')).map(card => ({
+          card,
+          title: card.querySelector('.title').textContent.trim(),
+          subtitle: card.querySelector('.subtitle').textContent.trim(),
+          price: card.querySelector('.price-row-card div').textContent.trim(),
+          img: card.querySelector('.media img')?.getAttribute('src') || '',
+        }));
+      }
+
+      function renderSuggestions(query) {
+        const products = getAllProducts();
+        const q = query.toLowerCase();
+        const matches = products.filter(p => p.title.toLowerCase().includes(q) || p.subtitle.toLowerCase().includes(q));
+        if (matches.length === 0) {
+          searchList.innerHTML = '<div class="muted" style="padding:10px;">No results</div>';
+          return;
+        }
+        searchList.innerHTML = matches.map(p => `
+          <div class="search-item" data-target-title="${p.title}">
+            <img class="search-thumb" src="${p.img}" alt="${p.title}" />
+            <div>
+              <div class="search-title">${p.title}</div>
+              <div class="search-sub">${p.subtitle}</div>
+            </div>
+            <div class="search-price">${p.price}</div>
+          </div>
+        `).join('');
+        searchList.querySelectorAll('.search-item').forEach(item => {
+          item.addEventListener('click', () => {
+            const title = item.getAttribute('data-target-title');
+            const target = Array.from(document.querySelectorAll('.card')).find(c => c.querySelector('.title').textContent.trim() === title);
+            if (target) {
+              document.querySelectorAll('.card').forEach(c => c.classList.remove('highlight'));
+              target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              target.classList.add('highlight');
+              setTimeout(() => target.classList.remove('highlight'), 2000);
+            }
+            searchForm.classList.remove('open');
+          });
+        });
+      }
+
       searchInput?.addEventListener('input', (e) => {
         clearTimeout(searchTimeout);
         const value = e.target.value.trim();
         
         if (value.length > 2) {
           searchTimeout = setTimeout(() => {
-            // Simulate search results
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-              const title = card.querySelector('.title').textContent.toLowerCase();
-              const matches = title.includes(value.toLowerCase());
-              card.style.display = matches ? 'flex' : 'none';
-              card.style.opacity = matches ? '1' : '0';
-              card.style.transform = matches ? 'translateY(0)' : 'translateY(20px)';
-            });
+            // Live suggestions
+            renderSuggestions(value);
+            searchForm.classList.add('open');
           }, 300);
         } else if (value.length === 0) {
           // Show all cards
@@ -978,7 +1047,32 @@
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
           });
+          searchForm.classList.remove('open');
         }
+      });
+
+      clearSearch?.addEventListener('click', () => {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => { card.style.display = 'flex'; card.style.opacity = '1'; card.style.transform = 'translateY(0)'; });
+        searchInput.value = '';
+        searchForm.classList.remove('open');
+        searchInput.focus();
+      });
+
+      // Submit search to filter grid
+      searchForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const value = searchInput.value.trim().toLowerCase();
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+          const title = card.querySelector('.title').textContent.toLowerCase();
+          const subtitle = card.querySelector('.subtitle').textContent.toLowerCase();
+          const matches = value.length === 0 || title.includes(value) || subtitle.includes(value);
+          card.style.display = matches ? 'flex' : 'none';
+          card.style.opacity = matches ? '1' : '0';
+          card.style.transform = matches ? 'translateY(0)' : 'translateY(20px)';
+        });
+        searchForm.classList.remove('open');
       });
 
       // Enhanced newsletter with success animation
