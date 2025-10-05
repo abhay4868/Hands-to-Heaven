@@ -1,0 +1,58 @@
+[
+  {
+    "id": "couple-ring",
+    "title": "Couple Ring",
+    "subtitle": "Handcrafted • Sterling Silver",
+    "price": 89,
+    "category": "ring",
+    "image": "products/couple ring.jpg"
+  },
+  {
+    "id": "preserved-flower",
+    "title": "Preserved Flower",
+    "subtitle": "Floral Art • Preserved",
+    "price": 39,
+    "category": "flower",
+    "image": "products/preserved flower.jpg"
+  },
+  {
+    "id": "flower-paper-weight",
+    "title": "Flower Preserved Paper Weight",
+    "subtitle": "Resin Art • Handmade",
+    "price": 45,
+    "category": "flower",
+    "image": "products/flower preserved paper weight.jpg"
+  },
+  {
+    "id": "marriage-frame",
+    "title": "Marriage Frame",
+    "subtitle": "Custom Design • 8x10\"",
+    "price": 65,
+    "category": "frame",
+    "image": "products/marriage Frame.jpg"
+  },
+  {
+    "id": "name-keychain",
+    "title": "Name Keychain",
+    "subtitle": "Personalized • Metal",
+    "price": 25,
+    "category": "keychain",
+    "image": "products/name keychain.jpg"
+  },
+  {
+    "id": "pendant",
+    "title": "Handcrafted Pendant",
+    "subtitle": "Resin Art • Unique",
+    "price": 35,
+    "category": "pendant",
+    "image": "products/pendant.jpg"
+  },
+  {
+    "id": "story-frame",
+    "title": "Story Frame",
+    "subtitle": "Custom Design • 6x8\"",
+    "price": 55,
+    "category": "frame",
+    "image": "products/story frame.jpg"
+  }
+]
