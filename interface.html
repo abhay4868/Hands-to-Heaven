@@ -91,22 +91,7 @@
         margin-left: 12px;
       }
       .header-search-icon {
-        background: none;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 8px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--muted);
-        transition: all 0.2s ease;
-        margin-left: 8px;
-      }
-      .header-search-icon:hover {
-        background: var(--accent);
-        color: var(--fg);
-        border-color: var(--brand);
+        display: none; /* Hidden on desktop by default */
       }
       .brand-logo {
         width: 36px; height: 36px; border-radius: 10px;
@@ -742,9 +727,20 @@
           line-height: 1.1;
         }
         .header-search-icon {
+          display: inline-flex !important; /* Show on mobile */
           padding: 5px;
           margin-left: 4px;
           border-radius: 6px;
+          background: none;
+          border: 1px solid var(--border);
+          cursor: pointer;
+          align-items: center;
+          justify-content: center;
+          color: var(--muted);
+        }
+        .header-search-icon:hover {
+          background: var(--accent);
+          color: var(--fg);
         }
         .header-search-icon svg {
           width: 16px;
@@ -1016,7 +1012,7 @@
         <div class="promo-viewport">
           <div class="promo-track" id="promoTrack">
             <div class="promo-slide">
-              <img src="display/ADD BANNERS/add banner 1.png" alt="Promotional banner 1" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:var(--muted); font-size:14px;\'>Banner 1</div>';">
+              <img src="display/ADD BANNERS/add banner 1.jpeg" alt="Promotional banner 1" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:var(--muted); font-size:14px;\'>Banner 1</div>';">
             </div>
             <div class="promo-slide">
               <img src="display/ADD BANNERS/add banner 2.png" alt="Promotional banner 2" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:var(--muted); font-size:14px;\'>Banner 2</div>';">
