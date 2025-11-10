@@ -559,8 +559,24 @@
       }
       .promo-viewport { overflow: hidden; }
       .promo-track { display: flex; will-change: transform; transition: transform .6s ease; }
-      .promo-slide { width: 100vw; height: 260px; position: relative; }
-      .promo-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .promo-slide { 
+        width: 100vw; 
+        height: 260px; 
+        position: relative; 
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #fff7ed, #ffffff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .promo-slide img { 
+        max-width: 100%; 
+        max-height: 100%; 
+        width: auto;
+        height: auto;
+        object-fit: contain; 
+        display: block; 
+      }
       
       /* Toasts */
       .toaster { position: fixed; top: 16px; right: 16px; display: grid; gap: 10px; z-index: 1000; pointer-events: none; }
@@ -741,13 +757,22 @@
         </div>
       </div>
 
-      <!-- Diwali promo slider -->
-      <section class="promo full-bleed" aria-label="Diwali offers" style="margin: 16px 0 0;">
+      <!-- Promo slider -->
+      <section class="promo full-bleed" aria-label="Promotional banners" style="margin: 16px 0 0;">
         <div class="promo-viewport">
           <div class="promo-track" id="promoTrack">
-            <div class="promo-slide"><img src="https://images.unsplash.com/photo-1504544750208-dc0358e63f7f?q=80&w=1600&auto=format&fit=crop" alt="Diwali sale banner 1"></div>
-            <div class="promo-slide"><img src="https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=1600&auto=format&fit=crop" alt="Diwali sale banner 2"></div>
-            <div class="promo-slide"><img src="https://images.unsplash.com/photo-1603899124577-5c07e5f0d0f2?q=80&w=1600&auto=format&fit=crop" alt="Diwali sale banner 3"></div>
+            <div class="promo-slide">
+              <img src="display/ADD BANNERS/add banner 1.png" alt="Promotional banner 1" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:var(--muted); font-size:14px;\'>Banner 1</div>';">
+            </div>
+            <div class="promo-slide">
+              <img src="display/ADD BANNERS/add banner 2.png" alt="Promotional banner 2" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:var(--muted); font-size:14px;\'>Banner 2</div>';">
+            </div>
+            <div class="promo-slide">
+              <img src="display/ADD BANNERS/add banner 3.png" alt="Promotional banner 3" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:var(--muted); font-size:14px;\'>Banner 3</div>';">
+            </div>
+            <div class="promo-slide">
+              <img src="display/ADD BANNERS/add banner 4.png" alt="Promotional banner 4" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:var(--muted); font-size:14px;\'>Banner 4</div>';">
+            </div>
           </div>
         </div>
       </section>
