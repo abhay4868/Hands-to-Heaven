@@ -932,7 +932,7 @@
     </style>
   </head>
   <body>
-    <div class="notice">Free shipping over $75 • Easy 30-day returns</div>
+    <div class="notice">Free shipping over ₹500 • Easy 30-day returns</div>
     <header>
       <div class="container header-inner">
         <a class="brand" href="#" aria-label="Hands to Heaven home" style="gap:10px;">
@@ -1187,7 +1187,7 @@
       <div class="drawer-footer">
         <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
           <div class="subtitle">Subtotal</div>
-          <div id="subtotal" style="font-weight:700;">$0.00</div>
+          <div id="subtotal" style="font-weight:700;">₹0.00</div>
         </div>
         <button class="btn primary" style="justify-content:center; width:100%;">Checkout</button>
       </div>
@@ -1344,7 +1344,7 @@
           html += `\n            <div style=\"display:flex; gap:12px; align-items:center; border-bottom:1px solid var(--border); padding:10px 0;\">\n              <div style=\"width:64px; height:64px; background:linear-gradient(135deg,#eef2ff,#f8fafc); border-radius:8px;\"></div>\n              <div style=\"flex:1;\">\n                <div class=\"title\">${it.title}</div>\n                <div class=\"muted\" style=\"font-size:14px;\">${it.variant}</div>\n                <div class=\"muted\" style=\"font-size:13px;\">Qty: ${it.quantity}</div>\n              </div>\n              <div>$${(it.price * it.quantity).toFixed(2)}</div>\n              <button class=\"icon-btn\" aria-label=\"Remove\" data-remove-index=\"${idx}\">Remove</button>\n            </div>\n          `;
         });
         cartItems.innerHTML = html;
-        subtotal.textContent = `$${cart.total.toFixed(2)}`;
+        subtotal.textContent = `₹${cart.total.toFixed(2)}`;
         const totalQty = cart.items.reduce((n, it) => n + it.quantity, 0);
         cartCount.textContent = String(totalQty);
         cartCountMobile.textContent = String(totalQty);
@@ -1365,7 +1365,7 @@
             const card = btn.closest('.card');
             const title = card.querySelector('.title').textContent.trim();
             const variant = card.querySelector('.subtitle').textContent.trim();
-            const priceText = card.querySelector('.price-row-card div').textContent.replace('$','').trim();
+            const priceText = card.querySelector('.price-row-card div').textContent.replace('₹','').trim();
             const price = Number(priceText);
             
             const key = `${title}|${variant}|${price}`;
@@ -1437,7 +1437,7 @@
               <div class="search-title">${p.title}</div>
               <div class="search-sub">${p.subtitle}</div>
             </div>
-            <div class="search-price">${p.price}</div>
+            <div class="search-price">₹${p.price}</div>
           </div>
         `).join('');
         
@@ -1555,7 +1555,7 @@
               <div class="search-title">${p.title}</div>
               <div class="search-sub">${p.subtitle}</div>
             </div>
-            <div class="search-price">${p.price}</div>
+            <div class="search-price">₹${p.price}</div>
           </div>
         `).join('');
         searchList.querySelectorAll('.search-item').forEach(item => {
@@ -1707,8 +1707,8 @@
         cards.sort((a, b) => {
           const titleA = a.querySelector('.title').textContent;
           const titleB = b.querySelector('.title').textContent;
-          const priceA = parseFloat(a.querySelector('.price-row-card div').textContent.replace('$',''));
-          const priceB = parseFloat(b.querySelector('.price-row-card div').textContent.replace('$',''));
+          const priceA = parseFloat(a.querySelector('.price-row-card div').textContent.replace('₹',''));
+          const priceB = parseFloat(b.querySelector('.price-row-card div').textContent.replace('₹',''));
           
           switch(sortBy) {
             case 'Price: Low to High':
@@ -1782,7 +1782,7 @@
             <div class="info">
               <div class="title">${p.title}</div>
               <div class="subtitle">${p.subtitle}</div>
-              <div class="price-row-card"><div>$${p.price}</div><button class="add-btn" data-add-to-cart data-id="${p.id}">Add</button></div>
+              <div class="price-row-card"><div>₹${p.price}</div><button class="add-btn" data-add-to-cart data-id="${p.id}">Add</button></div>
             </div>
           </article>
         `).join('');
