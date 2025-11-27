@@ -195,6 +195,165 @@
       /* Phone preview modal */
       .phone-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(2px); display: none; place-items: center; z-index: 120; }
       .phone-overlay[aria-hidden="false"] { display: grid; }
+      
+      /* Chatbot styles */
+      .chatbot-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        display: none;
+        place-items: center;
+        z-index: 150;
+        padding: 20px;
+      }
+      .chatbot-overlay[aria-hidden="false"] {
+        display: grid;
+      }
+      .chatbot-container {
+        width: 100%;
+        max-width: 500px;
+        height: 80vh;
+        max-height: 700px;
+        background: var(--card);
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .chatbot-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        background: var(--card);
+      }
+      .chatbot-header-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .chatbot-header-content svg {
+        color: var(--brand);
+      }
+      .chatbot-header h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .chatbot-close {
+        background: none;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+        color: var(--fg);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .chatbot-close:hover {
+        background: var(--accent);
+      }
+      .chatbot-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .chatbot-message {
+        display: flex;
+        gap: 10px;
+        animation: fadeIn 0.3s ease;
+      }
+      .chatbot-message.user {
+        justify-content: flex-end;
+      }
+      .chatbot-message.bot {
+        justify-content: flex-start;
+      }
+      .message-content {
+        max-width: 75%;
+        padding: 12px 16px;
+        border-radius: 12px;
+        background: var(--accent);
+        border: 1px solid var(--border);
+      }
+      .chatbot-message.user .message-content {
+        background: var(--brand);
+        color: #fff;
+        border-color: var(--brand);
+      }
+      .chatbot-message.bot .message-content {
+        background: var(--accent);
+        color: var(--fg);
+      }
+      .message-content p {
+        margin: 0;
+        line-height: 1.5;
+        font-size: 14px;
+      }
+      .chatbot-input-container {
+        display: flex;
+        gap: 10px;
+        padding: 16px 20px;
+        border-top: 1px solid var(--border);
+        background: var(--card);
+      }
+      .chatbot-input {
+        flex: 1;
+        padding: 12px 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--bg);
+        color: var(--fg);
+        font-size: 14px;
+        outline: none;
+      }
+      .chatbot-input:focus {
+        border-color: var(--brand);
+      }
+      .chatbot-send {
+        background: var(--brand);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+      }
+      .chatbot-send:hover {
+        background: var(--brand-600);
+      }
+      .chatbot-send:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 640px) {
+        .chatbot-container {
+          width: 100%;
+          height: 100vh;
+          max-height: 100vh;
+          border-radius: 0;
+        }
+      }
       .phone-frame { width: 375px; height: 740px; background: #000; border-radius: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 12px solid #111; position: relative; overflow: hidden; }
       .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 24px; background: #111; border-bottom-left-radius: 14px; border-bottom-right-radius: 14px; z-index: 2; }
       .phone-iframe { position: absolute; inset: 0; border: 0; width: 100%; height: 100%; background: #000; }
@@ -250,10 +409,58 @@
       .products-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); }
       .toolbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); gap: 12px; flex-wrap: wrap; }
       .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 16px; }
-      .card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; }
+      .card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; position: relative; }
       .media { aspect-ratio: 1/1; background: linear-gradient(135deg, #ffedd5, #fff7ed); position: relative; }
       .media img { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; inset: 0; }
       .media::after { content: none; }
+      .favorite-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .favorite-btn:hover {
+        background: rgba(255, 255, 255, 1);
+        transform: scale(1.1);
+      }
+      .favorite-btn.active {
+        background: rgba(239, 68, 68, 0.1);
+      }
+      .favorite-btn svg {
+        width: 20px;
+        height: 20px;
+        transition: all 0.2s ease;
+      }
+      .favorite-btn.active svg {
+        fill: #ef4444;
+        stroke: #ef4444;
+      }
+      .favorites-count {
+        background: var(--brand);
+        color: #fff;
+        border-radius: 999px;
+        padding: 2px 8px;
+        font-size: 12px;
+        font-weight: 700;
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        display: none;
+      }
+      .icon-btn {
+        position: relative;
+      }
       .info { padding: 12px; display: grid; gap: 6px; }
       .title { font-weight: 700; }
       .subtitle { color: var(--muted); font-size: 14px; }
@@ -936,6 +1143,218 @@
       .mobile-badge { position: relative; }
       .mobile-badge span { position: absolute; top: -4px; right: -10px; background: var(--brand); color: #fff; border-radius: 999px; padding: 2px 6px; font-size: 11px; font-weight: 800; }
 
+      /* Fullscreen modal overlay */
+      .fullscreen-modal-overlay {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #ffffff;
+        display: none;
+        align-items: stretch;
+        justify-content: center;
+        z-index: 200;
+        overflow-y: auto;
+      }
+      .fullscreen-modal-overlay.active { display: flex; }
+      .fullscreen-modal {
+        background: #ffffff;
+        border-radius: 0;
+        width: 100%;
+        max-width: 1200px;
+        min-height: calc(100vh - 60px);
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        position: relative;
+        padding: 40px clamp(24px, 5vw, 64px);
+      }
+      .fullscreen-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border);
+      }
+      .fullscreen-modal-header h2 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+      }
+      .fullscreen-modal-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px 0;
+      }
+      .fullscreen-modal-footer {
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+      }
+      @media (max-width: 640px) {
+        .fullscreen-modal {
+          padding: 20px 16px;
+        }
+        .fullscreen-modal-header h2 {
+          font-size: 22px;
+        }
+      }
+      
+      /* Login Modal */
+      .login-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 250;
+        overflow-y: auto;
+        padding: 20px;
+      }
+      .login-modal-overlay.active { display: flex; }
+      .login-modal-container {
+        position: relative;
+        width: 100%;
+        max-width: 420px;
+      }
+      .login-modal-close {
+        position: absolute;
+        top: -50px;
+        right: 0;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #fff;
+        transition: all 0.3s ease;
+        z-index: 10;
+      }
+      .login-modal-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+      .login-modal-close svg {
+        width: 20px;
+        height: 20px;
+      }
+      .login-container {
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(14px);
+        padding: 40px;
+        width: 100%;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,255,255,0.15);
+      }
+      .login-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+      }
+      .login-container .input-box {
+        margin-bottom: 20px;
+      }
+      .login-container .input-box label {
+        font-size: 14px;
+        opacity: 0.8;
+        color: #fff;
+        display: block;
+        margin-bottom: 6px;
+        font-family: 'Poppins', sans-serif;
+      }
+      .login-container .input-box input {
+        width: 100%;
+        padding: 12px;
+        margin-top: 6px;
+        border-radius: 10px;
+        border: none;
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+        font-size: 15px;
+        outline: none;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+      }
+      .login-container .input-box input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .login-container .input-box input:focus {
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255, 107, 0, 0.5);
+      }
+      .login-container .btn {
+        width: 100%;
+        padding: 14px;
+        background: #ff6b00;
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 12px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.3s;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+      }
+      .login-container .btn:hover {
+        background: #ff8533;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
+      }
+      .login-container .btn:active {
+        transform: translateY(0);
+      }
+      .login-container .links {
+        margin-top: 18px;
+        text-align: center;
+        font-size: 14px;
+        opacity: 0.9;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+      }
+      .login-container .links p {
+        margin: 8px 0;
+      }
+      .login-container .links a {
+        color: #ff6b00;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+      .login-container .links a:hover {
+        color: #ff8533;
+        text-decoration: underline;
+      }
+      @media (max-width: 640px) {
+        .login-modal-overlay {
+          padding: 16px;
+        }
+        .login-modal-close {
+          top: -40px;
+          right: 0;
+        }
+        .login-container {
+          padding: 30px 24px;
+        }
+        .login-container h2 {
+          font-size: 24px;
+        }
+      }
+      
       /* Product detail modal */
       .product-modal-overlay {
         position: fixed;
@@ -1109,8 +1528,9 @@
       }
       .suggestions-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 16px;
+        padding: 16px;
       }
       .product-modal .card.suggestion-card {
         cursor: pointer;
@@ -1213,6 +1633,11 @@
         .product-modal-body {
           grid-template-columns: 1fr;
         }
+        .suggestions-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 4px;
+          padding: 8px;
+        }
       }
     </style>
   </head>
@@ -1259,9 +1684,15 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 10l9-6 9 6v7a2 2 0 01-2 2h-4v-5H9v5H5a2 2 0 01-2-2v-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             <span>Become a Seller</span>
           </button>
+          <button class="icon-btn" id="openFavorites" aria-label="Favorites">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+            <span class="favorites-count" id="favoritesCount">0</span>
+          </button>
           <button class="icon-btn" id="openCart" aria-label="Open cart">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 3h2l1.5 12h11L21 6H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="20" r="1.5" fill="currentColor"/><circle cx="17" cy="20" r="1.5" fill="currentColor"/></svg>
-            <span class="cart-count" id="cartCount">2</span>
+            <span class="cart-count" id="cartCount">0</span>
           </button>
           <div class="dropdown" id="moreMenu">
             <button class="icon-btn" id="moreMenuBtn" aria-haspopup="menu" aria-expanded="false" aria-label="More options">
@@ -1276,15 +1707,15 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 12v6m0-12h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                 About
               </a>
-              <button type="button" class="menu-item" id="openPhoneView" role="menuitem" style="width:100%; text-align:left; background:none; border:none;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="18" r="1" fill="currentColor"/></svg>
-                Phone view
-              </button>
             </div>
           </div>
           <button class="link-btn" id="loginBtn" aria-label="Login" style="margin-left:4px;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zM3 22a9 9 0 1118 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             <span>Login</span>
+          </button>
+          <button class="link-btn" id="helpBtn" aria-label="Help" style="margin-left:4px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 12v6m0-12h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span>Help</span>
           </button>
         </nav>
       </div>
@@ -1531,19 +1962,9 @@
         </div>
         <div class="product-reviews" id="productReviews">
           <h3>Rating & Reviews</h3>
-          <div class="review-card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong>Aditi Sharma</strong>
-              <span class="review-stars">★★★★★</span>
-            </div>
-            <p style="margin:0; color:var(--muted);">Loved the detailing and finish. Delivery was faster than expected!</p>
-          </div>
-          <div class="review-card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong>Rahul Iyer</strong>
-              <span class="review-stars">★★★★☆</span>
-            </div>
-            <p style="margin:0; color:var(--muted);">Beautiful craftsmanship. Packaging can be improved but overall great.</p>
+          <div class="no-reviews-message" style="text-align: center; padding: 40px 20px; color: var(--muted);">
+            <p style="margin: 0; font-size: 16px;">No reviews yet</p>
+            <p style="margin: 8px 0 0; font-size: 14px;">Be the first to review this product!</p>
           </div>
         </div>
         <div class="product-modal-info-strip">
@@ -1609,6 +2030,69 @@
         <iframe class="phone-iframe" id="phoneIframe" title="Phone preview"></iframe>
       </div>
     </div>
+    <!-- Chatbot Modal -->
+    <div id="chatbotOverlay" class="chatbot-overlay" aria-hidden="true">
+      <div class="chatbot-container">
+        <div class="chatbot-header">
+          <div class="chatbot-header-content">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <h3>Help & Support</h3>
+          </div>
+          <button class="chatbot-close" id="closeChatbot" aria-label="Close chatbot">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+          <div class="chatbot-message bot">
+            <div class="message-content">
+              <p>Hello! I'm here to help you with questions about our resin products, orders, shipping, customization, and more. How can I assist you today?</p>
+            </div>
+          </div>
+        </div>
+        <div class="chatbot-input-container">
+          <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Type your question here..." aria-label="Chat input">
+          <button class="chatbot-send" id="chatbotSend" aria-label="Send message">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModalOverlay" class="login-modal-overlay" aria-hidden="true">
+      <div class="login-modal-container">
+        <button class="login-modal-close" id="closeLoginModal" aria-label="Close login">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="login-container">
+          <h2>Welcome Back</h2>
+          <form id="loginForm">
+            <div class="input-box">
+              <label>Email Address</label>
+              <input type="email" id="loginEmail" placeholder="Enter your email" required />
+            </div>
+            <div class="input-box">
+              <label>Password</label>
+              <input type="password" id="loginPassword" placeholder="Enter your password" required />
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <div class="links">
+              <p><a href="#" id="forgotPasswordLink">Forgot Password?</a></p>
+              <p>Don't have an account? <a href="#" id="createAccountLink">Create one</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <!-- Mobile tab bar -->
     <nav class="mobile-tabbar" aria-label="Bottom navigation">
       <button id="tabHome" class="active" aria-label="Home">
@@ -1629,32 +2113,58 @@
       </button>
     </nav>
 
-    <aside id="cartDrawer" class="drawer" aria-label="Shopping cart" aria-hidden="true">
-      <div class="drawer-header">
-        <div class="title">Your cart</div>
+    <!-- Favorites Modal -->
+    <div id="favoritesModalOverlay" class="fullscreen-modal-overlay" aria-hidden="true">
+      <div class="fullscreen-modal">
+        <div class="fullscreen-modal-header">
+          <h2>Your Favorites</h2>
+          <button class="icon-btn" id="closeFavorites" aria-label="Close favorites">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="fullscreen-modal-body" id="favoritesBody">
+          <div class="muted" style="text-align:center; padding:40px;">Your favorites list is empty.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cartModalOverlay" class="fullscreen-modal-overlay" aria-hidden="true">
+      <div class="fullscreen-modal">
+        <div class="fullscreen-modal-header">
+          <h2>Your Cart</h2>
         <button class="icon-btn" id="closeCart" aria-label="Close cart">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </button>
       </div>
-      <div class="drawer-body" id="cartItems">
-        <div class="muted">Your cart is empty.</div>
+        <div class="fullscreen-modal-body" id="cartItems">
+          <div class="muted" style="text-align:center; padding:40px;">Your cart is empty.</div>
       </div>
-      <div class="drawer-footer">
-        <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-          <div class="subtitle">Subtotal</div>
-          <div id="subtotal" style="font-weight:700;">₹0.00</div>
+        <div class="fullscreen-modal-footer">
+          <div style="display:flex; justify-content:space-between; margin-bottom:16px; padding:16px; background:var(--accent); border-radius:12px;">
+            <div class="subtitle" style="font-size:18px;">Subtotal</div>
+            <div id="subtotal" style="font-weight:700; font-size:20px;">₹0.00</div>
         </div>
-        <button class="btn primary" style="justify-content:center; width:100%;">Checkout</button>
+          <button class="btn primary" style="justify-content:center; width:100%; padding:16px; font-size:16px;">Checkout</button>
       </div>
-    </aside>
+      </div>
+    </div>
 
 
     <script>
       const overlay = document.getElementById('overlay');
-      const cartDrawer = document.getElementById('cartDrawer');
       const openCart = document.getElementById('openCart');
+      const openFavorites = document.getElementById('openFavorites');
+      const loginBtn = document.getElementById('loginBtn');
+      const loginModalOverlay = document.getElementById('loginModalOverlay');
+      const closeLoginModal = document.getElementById('closeLoginModal');
+      const loginForm = document.getElementById('loginForm');
+      const closeFavorites = document.getElementById('closeFavorites');
+      const favoritesBody = document.getElementById('favoritesBody');
       const closeCart = document.getElementById('closeCart');
       const cartCount = document.getElementById('cartCount');
       const cartItems = document.getElementById('cartItems');
@@ -1763,23 +2273,146 @@
       // Close dropdown when interacting with search
       searchForm?.addEventListener('focusin', () => setMoreMenuOpen(false));
 
-      function setOpen(drawer, isOpen) {
-        const root = document.body;
-        
-        if (isOpen) {
-          root.classList.add('open');
-          drawer.setAttribute('aria-hidden', 'false');
-          overlay.setAttribute('aria-hidden', 'false');
-        } else {
-          drawer.setAttribute('aria-hidden', 'true');
-          overlay.setAttribute('aria-hidden', 'true');
-          setTimeout(() => document.body.classList.remove('open'), 200);
+      function openCartModal() {
+        if (cartModalOverlay) {
+          cartModalOverlay.classList.add('active');
+          cartModalOverlay.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          renderCart();
         }
       }
 
-      openCart?.addEventListener('click', () => setOpen(cartDrawer, true));
-      closeCart?.addEventListener('click', () => setOpen(cartDrawer, false));
-      overlay.addEventListener('click', () => setOpen(cartDrawer, false));
+      function closeCartModal() {
+        if (cartModalOverlay) {
+          cartModalOverlay.classList.remove('active');
+          cartModalOverlay.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      }
+
+      function openFavoritesModal() {
+        if (favoritesModalOverlay) {
+          favoritesModalOverlay.classList.add('active');
+          favoritesModalOverlay.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          renderFavorites();
+        }
+      }
+
+      function closeFavoritesModal() {
+        if (favoritesModalOverlay) {
+          favoritesModalOverlay.classList.remove('active');
+          favoritesModalOverlay.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      }
+
+      openCart?.addEventListener('click', openCartModal);
+      closeCart?.addEventListener('click', closeCartModal);
+      openFavorites?.addEventListener('click', openFavoritesModal);
+      closeFavorites?.addEventListener('click', closeFavoritesModal);
+      
+      cartModalOverlay?.addEventListener('click', (e) => {
+        if (e.target === cartModalOverlay) closeCartModal();
+      });
+      favoritesModalOverlay?.addEventListener('click', (e) => {
+        if (e.target === favoritesModalOverlay) closeFavoritesModal();
+      });
+      
+      function openLoginModal() {
+        if (loginModalOverlay) {
+          loginModalOverlay.classList.add('active');
+          loginModalOverlay.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      function closeLoginModalFunc() {
+        if (loginModalOverlay) {
+          loginModalOverlay.classList.remove('active');
+          loginModalOverlay.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      }
+
+      loginBtn?.addEventListener('click', openLoginModal);
+      closeLoginModal?.addEventListener('click', closeLoginModalFunc);
+      loginModalOverlay?.addEventListener('click', (e) => {
+        if (e.target === loginModalOverlay) closeLoginModalFunc();
+      });
+      
+      loginForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail')?.value;
+        const password = document.getElementById('loginPassword')?.value;
+        
+        if (email && password) {
+          // Here you would typically send the login request to your backend
+          showToast('Login successful! Welcome back.');
+          closeLoginModalFunc();
+          // You can add more logic here like storing user session, redirecting, etc.
+        }
+      });
+      
+      document.getElementById('forgotPasswordLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('Password reset link will be sent to your email.');
+      });
+      
+      document.getElementById('createAccountLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('Sign up feature coming soon!');
+      });
+      
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeCartModal();
+          closeFavoritesModal();
+          closeLoginModalFunc();
+        }
+      });
+      
+      function renderFavorites() {
+        if (!favoritesBody) return;
+        const favorites = getFavorites();
+        if (favorites.length === 0) {
+          favoritesBody.innerHTML = '<div class="muted" style="text-align:center; padding:40px;">Your favorites list is empty.</div>';
+          return;
+        }
+        const favoriteProducts = allProducts.filter(p => favorites.includes(p.id));
+        favoritesBody.innerHTML = `
+          <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
+            ${favoriteProducts.map(p => `
+              <article class="card" data-id="${p.id}" style="position:relative;">
+                <div class="media">
+                  <img src="${p.image}" alt="${p.title}" />
+                  <button class="favorite-btn active" data-product-id="${p.id}" aria-label="Remove from favorites" onclick="event.stopPropagation(); toggleFavorite('${p.id}');">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="#ef4444"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="info">
+                  <div class="title">${p.title}</div>
+                  <div class="subtitle">${p.subtitle}</div>
+                  <div class="price-row-card">
+                    <div>₹${p.price}</div>
+                    <button class="add-btn" onclick="event.stopPropagation(); addProductToCartData({title: '${p.title.replace(/'/g, "\\'")}', variant: '${p.subtitle.replace(/'/g, "\\'")}', price: ${p.price}}); renderCart(); showToast('Added to cart');">Add</button>
+                  </div>
+                </div>
+              </article>
+            `).join('')}
+          </div>
+        `;
+        
+        // Bind click events for product cards
+        favoritesBody.querySelectorAll('.card[data-id]').forEach(card => {
+          card.addEventListener('click', () => {
+            const id = card.getAttribute('data-id');
+            if (id) openProductModal(id);
+          });
+        });
+      }
 
       // Diwali promo slider autoplay
       (function initPromoSlider() {
@@ -1795,14 +2428,70 @@
 
       // Demo cart state
       const cart = { items: [], total: 0 };
-      // Hydrate cart from localStorage
+      // Clear any default cart items and start fresh
       try {
-        const rawCart = localStorage.getItem('cart');
-        if (rawCart) {
-          const parsed = JSON.parse(rawCart);
-          if (Array.isArray(parsed.items)) cart.items = parsed.items;
-        }
+        localStorage.removeItem('cart');
       } catch {}
+      
+      // Favorites functionality
+      function getFavorites() {
+        try {
+          const raw = localStorage.getItem('favorites');
+          return raw ? JSON.parse(raw) : [];
+        } catch {
+          return [];
+        }
+      }
+      
+      function saveFavorites(favorites) {
+        try {
+          localStorage.setItem('favorites', JSON.stringify(favorites));
+      } catch {}
+      }
+      
+      function toggleFavorite(productId) {
+        const favorites = getFavorites();
+        const index = favorites.indexOf(productId);
+        
+        if (index > -1) {
+          favorites.splice(index, 1);
+          showToast('Removed from favorites');
+        } else {
+          favorites.push(productId);
+          showToast('Added to favorites');
+        }
+        
+        saveFavorites(favorites);
+        updateFavoritesCount();
+        updateFavoriteButtons();
+        if (favoritesModalOverlay && favoritesModalOverlay.getAttribute('aria-hidden') === 'false') {
+          renderFavorites();
+        }
+      }
+      
+      function updateFavoritesCount() {
+        const favoritesCount = document.getElementById('favoritesCount');
+        if (favoritesCount) {
+          const count = getFavorites().length;
+          favoritesCount.textContent = String(count);
+          favoritesCount.style.display = count > 0 ? 'block' : 'none';
+        }
+      }
+      
+      function updateFavoriteButtons() {
+        const favorites = getFavorites();
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+          const productId = btn.getAttribute('data-product-id');
+          if (favorites.includes(productId)) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
+      
+      // Make toggleFavorite available globally for onclick
+      window.toggleFavorite = toggleFavorite;
       function showToast(message) {
         const el = document.createElement('div');
         el.className = 'toast enter';
@@ -1834,7 +2523,7 @@
       }
       function renderCart() {
         if (cart.items.length === 0) {
-          cartItems.innerHTML = '<div class="muted">Your cart is empty.</div>';
+          cartItems.innerHTML = '<div class="muted" style="text-align:center; padding:40px;">Your cart is empty.</div>';
           subtotal.textContent = '₹0.00';
           cartCount.textContent = '0';
           cartCountMobile.textContent = '0';
@@ -1966,7 +2655,7 @@
         const product = allProducts.find(p => p.id === activeProductId);
         if (!product) return;
         addProductToCartData({ title: product.title, variant: product.subtitle, price: product.price });
-        setOpen(cartDrawer, true);
+        openCartModal();
       });
 
       // Mobile search modal
@@ -2354,7 +3043,7 @@
       // Keyboard navigation
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-          setOpen(cartDrawer, false);
+          closeCartModal();
         }
       });
 
@@ -2368,15 +3057,23 @@
         }
       });
       document.getElementById('tabProducts')?.addEventListener('click', () => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }));
-      document.getElementById('tabCart')?.addEventListener('click', () => setOpen(cartDrawer, true));
+      document.getElementById('tabCart')?.addEventListener('click', () => openCartModal());
 
       // Load products.json and build UI
       function renderProductCards(list) {
         if (!productsGrid) return;
-        const html = list.map(p => `
+        const favorites = getFavorites();
+        const html = list.map(p => {
+          const isFavorite = favorites.includes(p.id);
+          return `
           <article class="card" data-category="${p.category}" data-id="${p.id}">
             <div class="media">
               <img src="${p.image}" alt="${p.title}" />
+              <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-product-id="${p.id}" aria-label="Add to favorites" onclick="event.stopPropagation(); toggleFavorite('${p.id}')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
             </div>
             <div class="info">
               <div class="title">${p.title}</div>
@@ -2384,10 +3081,12 @@
               <div class="price-row-card"><div>₹${p.price}</div></div>
             </div>
           </article>
-        `).join('');
+        `;
+        }).join('');
         productsGrid.innerHTML = html;
         if (productCountEl) productCountEl.textContent = String(list.length);
         bindProductCardClicks();
+        updateFavoritesCount();
       }
 
       async function loadProducts() {
@@ -2404,6 +3103,7 @@
       }
 
       loadProducts();
+      updateFavoritesCount();
 
       // Phone view modal
       function setPhoneOpen(isOpen) {
@@ -2425,6 +3125,134 @@
       });
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') setPhoneOpen(false);
+      });
+
+      // Chatbot functionality
+      const chatbotOverlay = document.getElementById('chatbotOverlay');
+      const helpBtn = document.getElementById('helpBtn');
+      const closeChatbot = document.getElementById('closeChatbot');
+      const chatbotInput = document.getElementById('chatbotInput');
+      const chatbotSend = document.getElementById('chatbotSend');
+      const chatbotMessages = document.getElementById('chatbotMessages');
+
+      function openChatbot() {
+        if (chatbotOverlay) {
+          chatbotOverlay.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          if (chatbotInput) chatbotInput.focus();
+        }
+      }
+
+      function closeChatbotModal() {
+        if (chatbotOverlay) {
+          chatbotOverlay.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      }
+
+      // Knowledge base for resin products
+      const chatbotKnowledge = {
+        products: {
+          keywords: ['product', 'items', 'what do you sell', 'catalog', 'collection'],
+          response: 'We specialize in handcrafted resin products including resin art pieces, floral keepsakes, custom resin jewelry, resin home decor items, and personalized resin gifts. All our products are made with high-quality resin and can be customized to your preferences.'
+        },
+        materials: {
+          keywords: ['material', 'resin', 'what is resin', 'quality', 'durable', 'safe'],
+          response: 'We use premium epoxy resin that is food-safe, non-toxic, and UV-resistant. Our resin products are durable, waterproof, and designed to last for years. The resin we use is crystal clear and maintains its clarity over time. All materials are sourced from trusted suppliers and meet safety standards.'
+        },
+        customization: {
+          keywords: ['custom', 'personalize', 'personalization', 'bespoke', 'customize', 'special order'],
+          response: 'Yes! We offer full customization services. You can customize colors, add personal photos, include special messages, choose specific flowers or materials, and request unique designs. Custom orders typically take 7-14 business days. You can book a custom order through our website or contact us directly for bulk and corporate gifts.'
+        },
+        shipping: {
+          keywords: ['shipping', 'delivery', 'how long', 'when will i receive', 'delivery time', 'shipping time'],
+          response: 'We offer free shipping on orders over ₹500. Standard delivery takes 5-7 business days within India. Express shipping (2-3 business days) is available for an additional charge. We carefully package all items to ensure they arrive safely. You\'ll receive a tracking number once your order ships.'
+        },
+        care: {
+          keywords: ['care', 'maintain', 'clean', 'how to clean', 'maintenance', 'preserve'],
+          response: 'Resin products are easy to care for! Simply wipe with a soft, damp cloth. Avoid using harsh chemicals or abrasive cleaners. Keep away from direct sunlight for extended periods to prevent yellowing. Store in a cool, dry place. Our resin items are waterproof, so they can be cleaned with mild soap and water if needed.'
+        },
+        pricing: {
+          keywords: ['price', 'cost', 'how much', 'expensive', 'affordable', 'pricing'],
+          response: 'Our products range from ₹299 to ₹5,999 depending on size, complexity, and customization. We offer competitive pricing for high-quality handcrafted items. Special discounts are available for bulk orders and corporate gifts. Check our website for current promotions and coupon codes.'
+        },
+        returns: {
+          keywords: ['return', 'refund', 'exchange', 'cancel', 'return policy', 'money back'],
+          response: 'We offer a 30-day return policy. Items must be in original condition and packaging. Customized items are non-refundable unless there\'s a defect. For returns, contact us within 7 days of delivery. We\'ll process refunds within 5-7 business days after receiving the returned item.'
+        },
+        payment: {
+          keywords: ['payment', 'pay', 'how to pay', 'payment method', 'credit card', 'cash on delivery'],
+          response: 'We accept all major credit/debit cards, UPI, net banking, and cash on delivery (COD) for orders above ₹500. All payments are processed securely through encrypted gateways. You\'ll receive a payment confirmation email once your order is placed.'
+        },
+        flowers: {
+          keywords: ['flower', 'floral', 'preserved', 'dried flowers', 'flowers in resin'],
+          response: 'We use high-quality preserved and dried flowers in our resin products. These flowers are specially treated to maintain their color and beauty for years. We source flowers from local suppliers and ensure they are properly preserved before embedding them in resin. You can choose specific flowers for custom orders.'
+        },
+        greeting: {
+          keywords: ['hello', 'hi', 'hey', 'help', 'support'],
+          response: 'Hello! I\'m here to help you with questions about our resin products, orders, shipping, customization, and more. Feel free to ask me anything!'
+        }
+      };
+
+      function getChatbotResponse(userMessage) {
+        const message = userMessage.toLowerCase();
+        
+        // Check each knowledge category
+        for (const [category, data] of Object.entries(chatbotKnowledge)) {
+          if (data.keywords.some(keyword => message.includes(keyword))) {
+            return data.response;
+          }
+        }
+        
+        // Default response if no match
+        return 'I understand you\'re asking about: "' + userMessage + '". For specific questions about our resin products, customization, shipping, or orders, please provide more details. You can also contact our support team directly for personalized assistance.';
+      }
+
+      function addMessage(text, isUser = false) {
+        if (!chatbotMessages) return;
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chatbot-message ${isUser ? 'user' : 'bot'}`;
+        messageDiv.innerHTML = `
+          <div class="message-content">
+            <p>${text}</p>
+          </div>
+        `;
+        chatbotMessages.appendChild(messageDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      }
+
+      function sendMessage() {
+        if (!chatbotInput || !chatbotInput.value.trim()) return;
+        
+        const userMessage = chatbotInput.value.trim();
+        addMessage(userMessage, true);
+        chatbotInput.value = '';
+        
+        // Disable send button while processing
+        if (chatbotSend) chatbotSend.disabled = true;
+        
+        // Simulate thinking delay
+        setTimeout(() => {
+          const botResponse = getChatbotResponse(userMessage);
+          addMessage(botResponse, false);
+          if (chatbotSend) chatbotSend.disabled = false;
+          if (chatbotInput) chatbotInput.focus();
+        }, 500);
+      }
+
+      helpBtn?.addEventListener('click', openChatbot);
+      closeChatbot?.addEventListener('click', closeChatbotModal);
+      chatbotOverlay?.addEventListener('click', (e) => {
+        if (e.target === chatbotOverlay) closeChatbotModal();
+      });
+      chatbotSend?.addEventListener('click', sendMessage);
+      chatbotInput?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && chatbotOverlay?.getAttribute('aria-hidden') === 'false') {
+          closeChatbotModal();
+        }
       });
 
       // Inject Product JSON-LD for SEO
@@ -2463,6 +3291,7 @@
         await loadProducts();
         injectProductJsonLd(allProducts);
         renderCart();
+        updateFavoritesCount();
       })();
     </script>
   </body>
