@@ -67,12 +67,18 @@
 
       /* Header */
       header {
-        position: sticky;
+        position: fixed;
         top: 0;
-        z-index: 40;
+        left: 0;
+        right: 0;
+        z-index: 300;
         background: var(--bg);
         border-bottom: 1px solid var(--border);
         backdrop-filter: saturate(180%) blur(8px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      main {
+        margin-top: 60px;
       }
       .header-inner {
         display: grid;
@@ -933,7 +939,10 @@
       /* Product detail modal */
       .product-modal-overlay {
         position: fixed;
-        inset: 0;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background: #ffffff;
         display: none;
         align-items: stretch;
@@ -955,19 +964,37 @@
         position: relative;
         padding: 40px clamp(24px, 5vw, 64px);
       }
-      .product-modal-back {
-        position: absolute;
-        top: 18px;
-        left: 18px;
+      /* Header navigation buttons (shown when product modal is open) */
+      .header-nav-buttons {
+        display: none;
+        gap: 8px;
+        align-items: center;
+      }
+      .header-nav-buttons.active {
+        display: flex;
+      }
+      .header-nav-btn {
         background: none;
         border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 8px 16px;
+        border-radius: 10px;
+        padding: 8px;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        font-weight: 600;
+        justify-content: center;
+        color: var(--fg);
+        transition: all 0.2s ease;
+      }
+      .header-nav-btn:hover {
+        background: var(--accent);
+        border-color: var(--brand);
+      }
+      .header-nav-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+      .product-modal-back {
+        display: none;
       }
       .product-modal-body {
         display: grid;
@@ -1100,11 +1127,19 @@
       .product-modal-info-strip {
         background: #000;
         color: #f1f5f9;
-        border-radius: 18px;
-        padding: 32px;
+        padding: 48px 0;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+        position: relative;
+      }
+      .product-modal-info-strip .content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 20px;
+        gap: 24px;
       }
       .product-modal-info-strip h4 {
         margin: 0 0 8px;
@@ -1185,10 +1220,24 @@
     <div class="notice">Free shipping over ₹500 • Easy 30-day returns</div>
     <header>
       <div class="container header-inner">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="header-nav-buttons" id="headerNavButtons">
+            <button class="header-nav-btn" id="headerBackBtn" aria-label="Go back" title="Back">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="header-nav-btn" id="headerForwardBtn" aria-label="Go forward" title="Forward" style="opacity:0.5; cursor:not-allowed;" disabled>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
         <a class="brand" href="#" aria-label="Hands to Heaven home" style="gap:10px;">
           <img src="display/hands to heaven logo.jpg" alt="Hands to Heaven Logo" class="brand-logo" />
-          <div class="brand-name">Hands to Heaven</div>
-        </a>
+            <div class="brand-name">Hands to Heaven</div>
+          </a>
+        </div>
         <button class="header-search-icon" id="headerSearchIcon" aria-label="Search" title="Search">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M21 21l-3.8-3.8M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -1379,11 +1428,31 @@
           </ul>
         </div>
         <div>
+          <h4>About the Startup</h4>
+          <p style="margin:0; color:rgba(241,245,249,0.85); line-height:1.5;">
+            Hands to Heaven is a craft-first studio that preserves memories through bespoke resin and floral keepsakes. We work with local artisans and sustainable sourcing.
+          </p>
+        </div>
+        <div>
+          <h4>Owner of HTH</h4>
+          <p style="margin:0; color:rgba(241,245,249,0.85); line-height:1.5;">
+            Founded by Princi Lodhi, designer & storyteller, whose mission is to bring warmth and meaning to everyday luxury.
+          </p>
+        </div>
+        <div>
           <h4>Help</h4>
           <ul>
             <li><a href="#payments">Payments</a></li>
             <li><a href="#shipping">Shipping</a></li>
             <li><a href="#returns">Cancellation & Return</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Customisation</h4>
+          <ul>
+            <li><a href="#custom">Book a custom order</a></li>
+            <li><a href="#bulk">Bulk & corporate gifts</a></li>
+            <li><a href="#care">Care & material guide</a></li>
           </ul>
         </div>
         <div>
@@ -1424,12 +1493,6 @@
     <!-- Product detail modal -->
     <div id="productModalOverlay" class="product-modal-overlay" aria-hidden="true">
       <div class="product-modal" role="dialog" aria-modal="true" aria-labelledby="productModalTitle">
-        <button class="product-modal-back" id="closeProductModal" aria-label="Go back">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span>Back</span>
-        </button>
         <div class="product-modal-body">
           <div class="product-modal-image">
             <img id="productModalImage" alt="Product preview" />
@@ -1484,30 +1547,52 @@
           </div>
         </div>
         <div class="product-modal-info-strip">
-          <div>
-            <h4>About</h4>
-            <ul>
-              <li><a href="#contact">Contact us</a></li>
-              <li><a href="#about">About us</a></li>
-              <li><a href="#careers">Careers</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Help</h4>
-            <ul>
-              <li><a href="#payments">Payments</a></li>
-              <li><a href="#shipping">Shipping</a></li>
-              <li><a href="#returns">Cancellation & Return</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Social</h4>
-            <ul>
-              <li><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a></li>
-              <li><a href="https://youtube.com" target="_blank" rel="noreferrer">YouTube</a></li>
-              <li><a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a></li>
-              <li><a href="https://wa.me/1234567890" target="_blank" rel="noreferrer">WhatsApp</a></li>
-            </ul>
+          <div class="content">
+            <div>
+              <h4>About</h4>
+              <ul>
+                <li><a href="#contact">Contact us</a></li>
+                <li><a href="#about">About us</a></li>
+                <li><a href="#careers">Careers</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4>About the Startup</h4>
+              <p style="margin:0; color:rgba(241,245,249,0.85); line-height:1.5;">
+              Hands to Heaven is a craft-first studio that preserves memories through bespoke resin and floral keepsakes. We work with local artisans and sustainable sourcing.
+              </p>
+            </div>
+            <div>
+              <h4>Owner of HTH</h4>
+              <p style="margin:0; color:rgba(241,245,249,0.85); line-height:1.5;">
+              Founded by Princi Lodhi, designer & storyteller, whose mission is to bring warmth and meaning to everyday luxury.
+              </p>
+            </div>
+            <div>
+              <h4>Help</h4>
+              <ul>
+                <li><a href="#payments">Payments</a></li>
+                <li><a href="#shipping">Shipping</a></li>
+                <li><a href="#returns">Cancellation & Return</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4>Customisation</h4>
+              <ul>
+                <li><a href="#custom">Book a custom order</a></li>
+                <li><a href="#bulk">Bulk & corporate gifts</a></li>
+                <li><a href="#care">Care & material guide</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4>Social</h4>
+              <ul>
+                <li><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a></li>
+                <li><a href="https://youtube.com" target="_blank" rel="noreferrer">YouTube</a></li>
+                <li><a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a></li>
+                <li><a href="https://wa.me/1234567890" target="_blank" rel="noreferrer">WhatsApp</a></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -1585,7 +1670,8 @@
       const moreMenuBtn = document.getElementById('moreMenuBtn');
       const toaster = document.getElementById('toaster');
       const productModalOverlay = document.getElementById('productModalOverlay');
-      const closeProductModalBtn = document.getElementById('closeProductModal');
+      const headerNavButtons = document.getElementById('headerNavButtons');
+      const headerBackBtn = document.getElementById('headerBackBtn');
       const productModalImage = document.getElementById('productModalImage');
       const productModalTitle = document.getElementById('productModalTitle');
       const productModalSubtitle = document.getElementById('productModalSubtitle');
@@ -1652,7 +1738,7 @@
             'Get complimentary gift wrap on prepaid orders'
           ],
           coupon: 'DEMO10 - Flat 10% off on orders above ₹1,499',
-          description: `${product.title} is crafted thoughtfully using premium materials. Each piece from Shilpa Heaven is finished by hand, making it a one-of-a-kind keepsake perfect for gifting or personal collections.`
+          description: `${product.title} is crafted thoughtfully using premium materials. Each piece from Hands to Heaven is finished by hand, making it a one-of-a-kind keepsake perfect for gifting or personal collections.`
         };
       }
 
@@ -1837,6 +1923,8 @@
         productModalOverlay.classList.add('active');
         productModalOverlay.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        // Show header navigation buttons
+        if (headerNavButtons) headerNavButtons.classList.add('active');
       }
 
       function closeProductModal() {
@@ -1845,6 +1933,8 @@
         productModalOverlay.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         activeProductId = null;
+        // Hide header navigation buttons
+        if (headerNavButtons) headerNavButtons.classList.remove('active');
       }
 
       function bindProductCardClicks() {
@@ -1994,7 +2084,7 @@
         }
       });
 
-      closeProductModalBtn?.addEventListener('click', closeProductModal);
+      headerBackBtn?.addEventListener('click', closeProductModal);
       productModalOverlay?.addEventListener('click', (e) => {
         if (e.target === productModalOverlay) closeProductModal();
       });
