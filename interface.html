@@ -1354,6 +1354,260 @@
           font-size: 24px;
         }
       }
+
+      /* Checkout Modal */
+      .checkout-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 300;
+        overflow-y: auto;
+        padding: 20px;
+      }
+      .checkout-modal-overlay.active { display: flex; }
+      .checkout-modal-container {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        max-height: 90vh;
+        overflow-y: auto;
+        margin: auto;
+      }
+      .checkout-modal-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: rgba(0, 0, 0, 0.05);
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--text);
+        transition: all 0.3s ease;
+        z-index: 10;
+      }
+      .checkout-modal-close:hover {
+        background: rgba(0, 0, 0, 0.1);
+        transform: scale(1.1);
+      }
+      .checkout-content {
+        padding: 40px;
+      }
+      .checkout-content h2 {
+        margin: 0 0 24px 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .customer-type-toggle {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 32px;
+        background: var(--accent);
+        padding: 4px;
+        border-radius: 12px;
+      }
+      .toggle-btn {
+        flex: 1;
+        padding: 12px 20px;
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        font-size: 15px;
+        font-weight: 500;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .toggle-btn.active {
+        background: #ffffff;
+        color: var(--text);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      .checkout-form {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+      .form-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .form-section h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text);
+        padding-bottom: 12px;
+        border-bottom: 2px solid var(--accent);
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .form-group label {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text);
+      }
+      .form-group input {
+        padding: 12px 16px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 15px;
+        outline: none;
+        transition: all 0.3s ease;
+        background: #ffffff;
+      }
+      .form-group input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+      .form-group input::placeholder {
+        color: var(--muted);
+      }
+      .form-links {
+        text-align: right;
+        margin-top: -8px;
+      }
+      .form-links a {
+        color: var(--primary);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .form-links a:hover {
+        text-decoration: underline;
+      }
+      .checkout-order-summary {
+        background: var(--accent);
+        border-radius: 12px;
+        padding: 16px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      .checkout-order-item {
+        display: flex;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+      }
+      .checkout-order-item:last-child {
+        border-bottom: none;
+      }
+      .checkout-order-item img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .checkout-order-item-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .checkout-order-item-details .item-name {
+        font-weight: 500;
+        color: var(--text);
+        font-size: 14px;
+      }
+      .checkout-order-item-details .item-price {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .checkout-order-item-details .item-quantity {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .checkout-total {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 16px;
+        border-top: 2px solid rgba(0,0,0,0.1);
+      }
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 15px;
+        color: var(--text);
+      }
+      .total-row.total-final {
+        font-size: 20px;
+        font-weight: 700;
+        padding-top: 12px;
+        border-top: 2px solid rgba(0,0,0,0.1);
+        margin-top: 4px;
+      }
+      .checkout-submit-btn {
+        width: 100%;
+        padding: 16px;
+        background: var(--primary);
+        color: #ffffff;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 8px;
+      }
+      .checkout-submit-btn:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+      }
+      .checkout-submit-btn:active {
+        transform: translateY(0);
+      }
+      @media (max-width: 640px) {
+        .checkout-modal-overlay {
+          padding: 0;
+        }
+        .checkout-modal-container {
+          max-width: 100%;
+          max-height: 100vh;
+          border-radius: 0;
+        }
+        .checkout-content {
+          padding: 24px 20px;
+        }
+        .checkout-content h2 {
+          font-size: 24px;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        .customer-type-toggle {
+          margin-bottom: 24px;
+        }
+        .toggle-btn {
+          font-size: 14px;
+          padding: 10px 16px;
+        }
+      }
       
       /* Product detail modal */
       .product-modal-overlay {
@@ -2093,6 +2347,141 @@
       </div>
     </div>
 
+    <!-- Checkout Modal -->
+    <div id="checkoutModalOverlay" class="checkout-modal-overlay" aria-hidden="true">
+      <div class="checkout-modal-container">
+        <button class="checkout-modal-close" id="closeCheckoutModal" aria-label="Close checkout">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="checkout-content">
+          <h2>Checkout</h2>
+          
+          <!-- Customer Type Toggle -->
+          <div class="customer-type-toggle">
+            <button type="button" class="toggle-btn active" id="newCustomerBtn">New Customer</button>
+            <button type="button" class="toggle-btn" id="existingCustomerBtn">Already Have Account</button>
+          </div>
+
+          <!-- New Customer Form -->
+          <form id="checkoutForm" class="checkout-form">
+            <div class="form-section">
+              <h3>Personal Information</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="checkoutFirstName">First Name *</label>
+                  <input type="text" id="checkoutFirstName" placeholder="Enter your first name" required />
+                </div>
+                <div class="form-group">
+                  <label for="checkoutLastName">Last Name *</label>
+                  <input type="text" id="checkoutLastName" placeholder="Enter your last name" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="checkoutEmail">Email Address *</label>
+                <input type="email" id="checkoutEmail" placeholder="Enter your email" required />
+              </div>
+              <div class="form-group">
+                <label for="checkoutPhone">Phone Number *</label>
+                <input type="tel" id="checkoutPhone" placeholder="Enter your phone number" required />
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>Delivery Address</h3>
+              <div class="form-group">
+                <label for="checkoutAddress">Street Address *</label>
+                <input type="text" id="checkoutAddress" placeholder="House/Flat No., Street Name" required />
+              </div>
+              <div class="form-group">
+                <label for="checkoutAddress2">Address Line 2 (Optional)</label>
+                <input type="text" id="checkoutAddress2" placeholder="Apartment, suite, etc." />
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="checkoutCity">City *</label>
+                  <input type="text" id="checkoutCity" placeholder="Enter city" required />
+                </div>
+                <div class="form-group">
+                  <label for="checkoutState">State *</label>
+                  <input type="text" id="checkoutState" placeholder="Enter state" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="checkoutPincode">Pincode *</label>
+                <input type="text" id="checkoutPincode" placeholder="Enter pincode" required pattern="[0-9]{6}" />
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>Order Summary</h3>
+              <div id="checkoutOrderSummary" class="checkout-order-summary">
+                <!-- Order items will be populated here -->
+              </div>
+              <div class="checkout-total">
+                <div class="total-row">
+                  <span>Subtotal</span>
+                  <span id="checkoutSubtotal">₹0.00</span>
+                </div>
+                <div class="total-row">
+                  <span>Delivery Charges</span>
+                  <span id="checkoutDelivery">₹50.00</span>
+                </div>
+                <div class="total-row total-final">
+                  <span>Total</span>
+                  <span id="checkoutTotal">₹0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn checkout-submit-btn">Place Order</button>
+          </form>
+
+          <!-- Existing Customer Login Form -->
+          <form id="checkoutLoginForm" class="checkout-form" style="display: none;">
+            <div class="form-section">
+              <h3>Login to Continue</h3>
+              <div class="form-group">
+                <label for="checkoutLoginEmail">Email Address *</label>
+                <input type="email" id="checkoutLoginEmail" placeholder="Enter your email" required />
+              </div>
+              <div class="form-group">
+                <label for="checkoutLoginPassword">Password *</label>
+                <input type="password" id="checkoutLoginPassword" placeholder="Enter your password" required />
+              </div>
+              <div class="form-links">
+                <a href="#" id="checkoutForgotPassword">Forgot Password?</a>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>Order Summary</h3>
+              <div id="checkoutLoginOrderSummary" class="checkout-order-summary">
+                <!-- Order items will be populated here -->
+              </div>
+              <div class="checkout-total">
+                <div class="total-row">
+                  <span>Subtotal</span>
+                  <span id="checkoutLoginSubtotal">₹0.00</span>
+                </div>
+                <div class="total-row">
+                  <span>Delivery Charges</span>
+                  <span id="checkoutLoginDelivery">₹50.00</span>
+                </div>
+                <div class="total-row total-final">
+                  <span>Total</span>
+                  <span id="checkoutLoginTotal">₹0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn checkout-submit-btn">Login & Place Order</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <!-- Mobile tab bar -->
     <nav class="mobile-tabbar" aria-label="Bottom navigation">
       <button id="tabHome" class="active" aria-label="Home">
@@ -2149,7 +2538,7 @@
             <div class="subtitle" style="font-size:18px;">Subtotal</div>
             <div id="subtotal" style="font-weight:700; font-size:20px;">₹0.00</div>
         </div>
-          <button class="btn primary" style="justify-content:center; width:100%; padding:16px; font-size:16px;">Checkout</button>
+          <button class="btn primary" id="checkoutBtn" style="justify-content:center; width:100%; padding:16px; font-size:16px;">Checkout</button>
       </div>
       </div>
     </div>
@@ -2163,6 +2552,13 @@
       const loginModalOverlay = document.getElementById('loginModalOverlay');
       const closeLoginModal = document.getElementById('closeLoginModal');
       const loginForm = document.getElementById('loginForm');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      const checkoutModalOverlay = document.getElementById('checkoutModalOverlay');
+      const closeCheckoutModal = document.getElementById('closeCheckoutModal');
+      const newCustomerBtn = document.getElementById('newCustomerBtn');
+      const existingCustomerBtn = document.getElementById('existingCustomerBtn');
+      const checkoutForm = document.getElementById('checkoutForm');
+      const checkoutLoginForm = document.getElementById('checkoutLoginForm');
       const closeFavorites = document.getElementById('closeFavorites');
       const favoritesBody = document.getElementById('favoritesBody');
       const closeCart = document.getElementById('closeCart');
@@ -2364,11 +2760,158 @@
         showToast('Sign up feature coming soon!');
       });
       
+      // Checkout Modal Functions
+      function openCheckoutModal() {
+        if (checkoutModalOverlay && cart.items.length > 0) {
+          checkoutModalOverlay.classList.add('active');
+          checkoutModalOverlay.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          renderCheckoutOrderSummary();
+          // Reset to new customer form by default
+          newCustomerBtn?.classList.add('active');
+          existingCustomerBtn?.classList.remove('active');
+          checkoutForm.style.display = 'flex';
+          checkoutLoginForm.style.display = 'none';
+        } else if (cart.items.length === 0) {
+          showToast('Your cart is empty. Add items to checkout.');
+        }
+      }
+
+      function closeCheckoutModalFunc() {
+        if (checkoutModalOverlay) {
+          checkoutModalOverlay.classList.remove('active');
+          checkoutModalOverlay.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      }
+
+      function renderCheckoutOrderSummary() {
+        const checkoutOrderSummary = document.getElementById('checkoutOrderSummary');
+        const checkoutLoginOrderSummary = document.getElementById('checkoutLoginOrderSummary');
+        const checkoutSubtotal = document.getElementById('checkoutSubtotal');
+        const checkoutLoginSubtotal = document.getElementById('checkoutLoginSubtotal');
+        const checkoutTotal = document.getElementById('checkoutTotal');
+        const checkoutLoginTotal = document.getElementById('checkoutLoginTotal');
+        const deliveryCharges = 50;
+        
+        if (!checkoutOrderSummary || cart.items.length === 0) return;
+        
+        const subtotalAmount = cart.total;
+        const totalAmount = subtotalAmount + deliveryCharges;
+        
+        const orderItemsHTML = cart.items.map(item => `
+          <div class="checkout-order-item">
+            <img src="${item.image || 'products/couple ring.jpg'}" alt="${item.title}" onerror="this.src='products/couple ring.jpg'">
+            <div class="checkout-order-item-details">
+              <div class="item-name">${item.title}</div>
+              <div class="item-price">₹${item.price}</div>
+              <div class="item-quantity">Quantity: ${item.quantity || 1}</div>
+            </div>
+          </div>
+        `).join('');
+        
+        checkoutOrderSummary.innerHTML = orderItemsHTML;
+        if (checkoutLoginOrderSummary) {
+          checkoutLoginOrderSummary.innerHTML = orderItemsHTML;
+        }
+        
+        if (checkoutSubtotal) checkoutSubtotal.textContent = `₹${subtotalAmount.toFixed(2)}`;
+        if (checkoutLoginSubtotal) checkoutLoginSubtotal.textContent = `₹${subtotalAmount.toFixed(2)}`;
+        if (checkoutTotal) checkoutTotal.textContent = `₹${totalAmount.toFixed(2)}`;
+        if (checkoutLoginTotal) checkoutLoginTotal.textContent = `₹${totalAmount.toFixed(2)}`;
+      }
+
+      checkoutBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeCartModal();
+        setTimeout(() => openCheckoutModal(), 300);
+      });
+
+      closeCheckoutModal?.addEventListener('click', closeCheckoutModalFunc);
+      checkoutModalOverlay?.addEventListener('click', (e) => {
+        if (e.target === checkoutModalOverlay) closeCheckoutModalFunc();
+      });
+
+      // Toggle between new customer and existing customer forms
+      newCustomerBtn?.addEventListener('click', () => {
+        newCustomerBtn.classList.add('active');
+        existingCustomerBtn?.classList.remove('active');
+        checkoutForm.style.display = 'flex';
+        checkoutLoginForm.style.display = 'none';
+      });
+
+      existingCustomerBtn?.addEventListener('click', () => {
+        existingCustomerBtn.classList.add('active');
+        newCustomerBtn?.classList.remove('active');
+        checkoutForm.style.display = 'none';
+        checkoutLoginForm.style.display = 'flex';
+        renderCheckoutOrderSummary();
+      });
+
+      // Handle checkout form submission (new customer)
+      checkoutForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = {
+          firstName: document.getElementById('checkoutFirstName')?.value,
+          lastName: document.getElementById('checkoutLastName')?.value,
+          email: document.getElementById('checkoutEmail')?.value,
+          phone: document.getElementById('checkoutPhone')?.value,
+          address: document.getElementById('checkoutAddress')?.value,
+          address2: document.getElementById('checkoutAddress2')?.value,
+          city: document.getElementById('checkoutCity')?.value,
+          state: document.getElementById('checkoutState')?.value,
+          pincode: document.getElementById('checkoutPincode')?.value,
+          items: cart.items,
+          total: cart.total + 50
+        };
+        
+        // Here you would typically send this to your backend
+        console.log('Checkout data:', formData);
+        showToast('Order placed successfully! Thank you for your purchase.');
+        // Clear cart after successful order
+        cart.items = [];
+        cart.total = 0;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+        closeCheckoutModalFunc();
+      });
+
+      // Handle checkout login form submission
+      checkoutLoginForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('checkoutLoginEmail')?.value;
+        const password = document.getElementById('checkoutLoginPassword')?.value;
+        
+        if (email && password) {
+          // Here you would typically authenticate the user
+          const formData = {
+            email: email,
+            items: cart.items,
+            total: cart.total + 50
+          };
+          
+          console.log('Checkout login data:', formData);
+          showToast('Login successful! Order placed.');
+          // Clear cart after successful order
+          cart.items = [];
+          cart.total = 0;
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderCart();
+          closeCheckoutModalFunc();
+        }
+      });
+
+      document.getElementById('checkoutForgotPassword')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('Password reset link will be sent to your email.');
+      });
+
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           closeCartModal();
           closeFavoritesModal();
           closeLoginModalFunc();
+          closeCheckoutModalFunc();
         }
       });
       
