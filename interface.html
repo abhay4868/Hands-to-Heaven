@@ -1136,7 +1136,7 @@
         }
       }
       /* Mobile tab bar */
-      .mobile-tabbar { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; background: var(--card); border-top: 1px solid var(--border); box-shadow: var(--shadow); grid-template-columns: repeat(4, 1fr); }
+      .mobile-tabbar { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; background: var(--card); border-top: 1px solid var(--border); box-shadow: var(--shadow); grid-template-columns: repeat(5, 1fr); }
       .mobile-tabbar button { background: none; border: none; padding: 10px 0; display: grid; place-items: center; gap: 6px; color: var(--muted); }
       .mobile-tabbar button:active { transform: translateY(1px); }
       .mobile-tabbar .active { color: var(--fg); }
@@ -1204,14 +1204,15 @@
       /* Login Modal */
       .login-modal-overlay {
         position: fixed;
-        top: 0;
+        top: 60px;
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+        background: var(--bg);
+        backdrop-filter: blur(8px);
         display: none;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         z-index: 250;
         overflow-y: auto;
         padding: 20px;
@@ -1221,13 +1222,17 @@
         position: relative;
         width: 100%;
         max-width: 420px;
+        margin-top: 20px;
+      }
+      .signup-container {
+        max-width: 600px;
       }
       .login-modal-close {
         position: absolute;
         top: -50px;
         right: 0;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: var(--card);
+        border: 1px solid var(--border);
         border-radius: 50%;
         width: 40px;
         height: 40px;
@@ -1235,12 +1240,14 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        color: #fff;
+        color: var(--fg);
+        box-shadow: var(--shadow);
         transition: all 0.3s ease;
         z-index: 10;
       }
       .login-modal-close:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: var(--accent);
+        border-color: var(--brand);
         transform: scale(1.1);
       }
       .login-modal-close svg {
@@ -1248,13 +1255,12 @@
         height: 20px;
       }
       .login-container {
-        background: rgba(255, 255, 255, 0.06);
-        backdrop-filter: blur(14px);
+        background: var(--card);
         padding: 40px;
         width: 100%;
         border-radius: 20px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-        border: 1px solid rgba(255,255,255,0.15);
+        box-shadow: var(--shadow), 0 8px 30px rgba(0,0,0,0.1);
+        border: 1px solid var(--border);
       }
       .login-container h2 {
         text-align: center;
@@ -1262,7 +1268,7 @@
         font-size: 28px;
         font-weight: 600;
         letter-spacing: 1px;
-        color: #fff;
+        color: var(--fg);
         font-family: 'Poppins', sans-serif;
       }
       .login-container .input-box {
@@ -1270,8 +1276,8 @@
       }
       .login-container .input-box label {
         font-size: 14px;
-        opacity: 0.8;
-        color: #fff;
+        color: var(--fg);
+        font-weight: 500;
         display: block;
         margin-bottom: 6px;
         font-family: 'Poppins', sans-serif;
@@ -1281,27 +1287,29 @@
         padding: 12px;
         margin-top: 6px;
         border-radius: 10px;
-        border: none;
-        background: rgba(255,255,255,0.1);
-        color: #fff;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--fg);
         font-size: 15px;
         outline: none;
         box-sizing: border-box;
         font-family: 'Poppins', sans-serif;
+        transition: all 0.3s ease;
       }
       .login-container .input-box input::placeholder {
-        color: rgba(255, 255, 255, 0.5);
+        color: var(--muted);
       }
       .login-container .input-box input:focus {
-        background: rgba(255,255,255,0.15);
-        border: 1px solid rgba(255, 107, 0, 0.5);
+        background: var(--bg);
+        border: 1px solid var(--brand);
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
       }
       .login-container .btn {
         width: 100%;
         padding: 14px;
-        background: #ff6b00;
+        background: var(--brand);
         border: none;
-        color: #fff;
+        color: #ffffff;
         font-size: 16px;
         border-radius: 12px;
         cursor: pointer;
@@ -1311,9 +1319,9 @@
         font-weight: 500;
       }
       .login-container .btn:hover {
-        background: #ff8533;
+        background: var(--brand-600);
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
       }
       .login-container .btn:active {
         transform: translateY(0);
@@ -1322,26 +1330,260 @@
         margin-top: 18px;
         text-align: center;
         font-size: 14px;
-        opacity: 0.9;
-        color: #fff;
+        color: var(--fg);
         font-family: 'Poppins', sans-serif;
       }
       .login-container .links p {
         margin: 8px 0;
       }
       .login-container .links a {
-        color: #ff6b00;
+        color: var(--brand);
         text-decoration: none;
         font-weight: 500;
         transition: color 0.3s ease;
       }
       .login-container .links a:hover {
-        color: #ff8533;
+        color: var(--brand-600);
         text-decoration: underline;
+      }
+      
+      /* Signup Form Styling */
+      .signup-container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .signup-header {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .signup-header h2 {
+        margin-bottom: 8px;
+      }
+      .signup-subtitle {
+        font-size: 14px;
+        opacity: 0.8;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+        font-weight: 400;
+      }
+      .signup-form {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .form-section-wrapper {
+        background: var(--accent);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+      .form-section-wrapper:hover {
+        background: var(--accent);
+        border-color: var(--brand);
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+      }
+      .form-section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border);
+      }
+      .form-section-header svg {
+        color: var(--brand);
+        flex-shrink: 0;
+      }
+      .form-section-header h3 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--fg);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .form-fields-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .form-fields-grid .full-width {
+        grid-column: 1 / -1;
+      }
+      .input-box label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: var(--fg);
+      }
+      .input-box label svg {
+        width: 16px;
+        height: 16px;
+        color: var(--brand);
+        flex-shrink: 0;
+      }
+      .input-box input {
+        transition: all 0.3s ease;
+      }
+      .input-box input:focus {
+        background: var(--bg);
+        border: 1px solid var(--brand);
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+      }
+      .error-message {
+        color: #ff6b6b;
+        font-size: 12px;
+        margin-top: 6px;
+        display: none;
+        font-weight: 500;
+        padding-left: 24px;
+      }
+      .error-message.show {
+        display: block;
+      }
+      .terms-wrapper {
+        background: var(--accent);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        margin-top: 8px;
+      }
+      .checkbox-label {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        cursor: pointer;
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--fg);
+      }
+      .checkbox-label input[type="checkbox"] {
+        display: none;
+      }
+      .checkbox-custom {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--border);
+        border-radius: 4px;
+        background: var(--bg);
+        flex-shrink: 0;
+        margin-top: 2px;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+      .checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
+        background: var(--brand);
+        border-color: var(--brand);
+      }
+      .checkbox-label input[type="checkbox"]:checked + .checkbox-custom::after {
+        content: '';
+        position: absolute;
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+      .checkbox-text {
+        flex: 1;
+      }
+      .checkbox-text a {
+        color: var(--brand);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+      .checkbox-text a:hover {
+        color: var(--brand-600);
+        text-decoration: underline;
+      }
+      .signup-submit-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-size: 15px;
+        padding: 16px;
+        background: var(--brand);
+        color: #ffffff;
+      }
+      .signup-submit-btn:hover {
+        background: var(--brand-600);
+      }
+      .signup-submit-btn svg {
+        transition: transform 0.3s ease;
+      }
+      .signup-submit-btn:hover svg {
+        transform: translateX(4px);
+      }
+      
+      .checkbox-box {
+        margin-top: 8px;
+      }
+      .checkbox-box input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #ff6b00;
+      }
+      .checkbox-box label {
+        font-size: 14px;
+        opacity: 0.9;
+      }
+      .user-profile-content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 20px;
+      }
+      .profile-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .profile-field-label {
+        font-size: 12px;
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #fff;
+      }
+      .profile-field-value {
+        font-size: 16px;
+        font-weight: 500;
+        color: #fff;
+      }
+      #passwordMatchError {
+        color: #ff6b6b;
+        font-size: 12px;
+        margin-top: 4px;
+        display: none;
+      }
+      #passwordMatchError.show {
+        display: block;
       }
       @media (max-width: 640px) {
         .login-modal-overlay {
+          top: 60px;
           padding: 16px;
+          align-items: flex-start;
+        }
+        .login-modal-container {
+          margin-top: 0;
         }
         .login-modal-close {
           top: -40px;
@@ -1349,9 +1591,54 @@
         }
         .login-container {
           padding: 30px 24px;
+          max-height: 90vh;
+          overflow-y: auto;
         }
         .login-container h2 {
           font-size: 24px;
+        }
+        .login-container .input-box {
+          margin-bottom: 16px;
+        }
+        .login-container .input-box input {
+          font-size: 16px; /* Prevents zoom on iOS */
+        }
+        .login-container .btn {
+          padding: 14px;
+          font-size: 16px;
+        }
+        .user-profile-content {
+          gap: 12px;
+        }
+        .profile-field {
+          padding: 12px;
+        }
+        .profile-field-label {
+          font-size: 11px;
+        }
+        .profile-field-value {
+          font-size: 15px;
+        }
+        .mobile-tabbar button {
+          font-size: 11px;
+        }
+        .mobile-tabbar button span {
+          font-size: 11px;
+        }
+        .form-fields-grid {
+          grid-template-columns: 1fr;
+        }
+        .form-section-wrapper {
+          padding: 20px;
+        }
+        .signup-header {
+          margin-bottom: 24px;
+        }
+        .signup-header h2 {
+          font-size: 24px;
+        }
+        .signup-subtitle {
+          font-size: 13px;
         }
       }
 
@@ -1582,7 +1869,70 @@
       .checkout-submit-btn:active {
         transform: translateY(0);
       }
+      
+      /* Payment Method Selection */
+      .payment-methods-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-top: 16px;
+      }
+      .payment-method-card {
+        position: relative;
+      }
+      .payment-method-card input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .payment-method-label {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px;
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        background: var(--card);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .payment-method-label:hover {
+        border-color: var(--brand);
+        background: var(--accent);
+      }
+      .payment-method-card input[type="radio"]:checked + .payment-method-label {
+        border-color: var(--brand);
+        background: var(--accent);
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+      }
+      .payment-method-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg);
+        border-radius: 10px;
+        color: var(--brand);
+        flex-shrink: 0;
+      }
+      .payment-method-info {
+        flex: 1;
+      }
+      .payment-method-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--fg);
+        margin-bottom: 4px;
+      }
+      .payment-method-desc {
+        font-size: 13px;
+        color: var(--muted);
+      }
       @media (max-width: 640px) {
+        .payment-methods-grid {
+          grid-template-columns: 1fr;
+        }
         .checkout-modal-overlay {
           padding: 0;
         }
@@ -2326,7 +2676,7 @@
             <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </button>
-        <div class="login-container">
+        <div class="login-container" id="loginContainer">
           <h2>Welcome Back</h2>
           <form id="loginForm">
             <div class="input-box">
@@ -2343,6 +2693,184 @@
               <p>Don't have an account? <a href="#" id="createAccountLink">Create one</a></p>
             </div>
           </form>
+        </div>
+        <!-- Signup Form (hidden by default) -->
+        <div class="login-container signup-container" id="signupContainer" style="display: none;">
+          <div class="signup-header">
+            <h2>Create Your Account</h2>
+            <p class="signup-subtitle">Join Hands to Heaven and start your journey</p>
+          </div>
+          <form id="signupForm" class="signup-form">
+            <!-- Personal Information Section -->
+            <div class="form-section-wrapper">
+              <div class="form-section-header">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <h3>Personal Information</h3>
+              </div>
+              <div class="form-fields-grid">
+                <div class="input-box">
+                  <label>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Full Name *
+                  </label>
+                  <input type="text" id="signupName" placeholder="Abhay Tiwari" required />
+                </div>
+                <div class="input-box">
+                  <label>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
+                      <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Email Address *
+                  </label>
+                  <input type="email" id="signupEmail" placeholder="abhay.tiwari@example.com" required />
+                </div>
+                <div class="input-box">
+                  <label>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Phone Number *
+                  </label>
+                  <input type="tel" id="signupPhone" placeholder="+91 9876543210" required />
+                </div>
+              </div>
+            </div>
+
+            <!-- Address Information Section -->
+            <div class="form-section-wrapper">
+              <div class="form-section-header">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
+                  <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <h3>Delivery Address</h3>
+              </div>
+              <div class="form-fields-grid">
+                <div class="input-box full-width">
+                  <label>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
+                      <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Street Address *
+                  </label>
+                  <input type="text" id="signupAddress" placeholder="House/Flat No., Street Name" required />
+                </div>
+                <div class="input-box">
+                  <label>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
+                      <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    City *
+                  </label>
+                  <input type="text" id="signupCity" placeholder="Mumbai" required />
+                </div>
+                <div class="input-box">
+                  <label>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
+                      <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    State *
+                  </label>
+                  <input type="text" id="signupState" placeholder="Maharashtra" required />
+                </div>
+                <div class="input-box">
+                  <label>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                      <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2"/>
+                      <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2"/>
+                      <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Pincode *
+                  </label>
+                  <input type="text" id="signupPincode" placeholder="400001" required pattern="[0-9]{6}" maxlength="6" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Security Section -->
+            <div class="form-section-wrapper">
+              <div class="form-section-header">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <h3>Security</h3>
+              </div>
+              <div class="form-fields-grid">
+                <div class="input-box">
+                  <label>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Password *
+                  </label>
+                  <input type="password" id="signupPassword" placeholder="Create a strong password" required />
+                </div>
+                <div class="input-box">
+                  <label>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Confirm Password *
+                  </label>
+                  <input type="password" id="signupConfirmPassword" placeholder="Re-enter your password" required />
+                  <span id="passwordMatchError" class="error-message">Passwords do not match</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="terms-wrapper">
+              <label class="checkbox-label">
+                <input type="checkbox" id="signupPrivacyPolicy" required />
+                <span class="checkbox-custom"></span>
+                <span class="checkbox-text">I agree to the <a href="#" target="_blank">Privacy Policy</a> and <a href="#" target="_blank">Terms of Service</a> *</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn signup-submit-btn">
+              <span>Create Account</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="links">
+              <p>Already have an account? <a href="#" id="backToLoginLink">Sign In</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div id="userProfileModalOverlay" class="login-modal-overlay" aria-hidden="true">
+      <div class="login-modal-container">
+        <button class="login-modal-close" id="closeUserProfileModal" aria-label="Close profile">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="login-container">
+          <h2>My Profile</h2>
+          <div id="userProfileContent" class="user-profile-content">
+            <!-- User data will be populated here -->
+          </div>
+          <div class="links" style="margin-top: 24px;">
+            <button type="button" class="btn" id="logoutBtn" style="background: #ef4444; margin-top: 12px;">Logout</button>
+          </div>
         </div>
       </div>
     </div>
@@ -2435,7 +2963,7 @@
               </div>
             </div>
 
-            <button type="submit" class="btn checkout-submit-btn">Place Order</button>
+            <button type="submit" class="btn checkout-submit-btn">Continue to Payment</button>
           </form>
 
           <!-- Existing Customer Login Form -->
@@ -2476,8 +3004,135 @@
               </div>
             </div>
 
-            <button type="submit" class="btn checkout-submit-btn">Login & Place Order</button>
+            <button type="submit" class="btn checkout-submit-btn">Login & Continue</button>
           </form>
+        </div>
+
+        <!-- Payment Method Selection (hidden by default) -->
+        <div id="paymentMethodSection" class="checkout-form" style="display: none;">
+          <div class="form-section">
+            <h3>Select Payment Method</h3>
+            <div class="payment-methods-grid">
+              <div class="payment-method-card" data-method="upi">
+                <input type="radio" name="paymentMethod" id="paymentUPI" value="upi" required />
+                <label for="paymentUPI" class="payment-method-label">
+                  <div class="payment-method-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+                      <path d="M2 10h20M8 14h8" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <div class="payment-method-info">
+                    <div class="payment-method-name">UPI</div>
+                    <div class="payment-method-desc">BHIM, PhonePe, Paytm, GooglePay</div>
+                  </div>
+                </label>
+              </div>
+
+              <div class="payment-method-card" data-method="debit">
+                <input type="radio" name="paymentMethod" id="paymentDebit" value="debit" required />
+                <label for="paymentDebit" class="payment-method-label">
+                  <div class="payment-method-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+                      <path d="M2 10h20" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <div class="payment-method-info">
+                    <div class="payment-method-name">Debit Card</div>
+                    <div class="payment-method-desc">Visa, Mastercard, Rupay</div>
+                  </div>
+                </label>
+              </div>
+
+              <div class="payment-method-card" data-method="credit">
+                <input type="radio" name="paymentMethod" id="paymentCredit" value="credit" required />
+                <label for="paymentCredit" class="payment-method-label">
+                  <div class="payment-method-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+                      <path d="M2 10h20" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <div class="payment-method-info">
+                    <div class="payment-method-name">Credit Card</div>
+                    <div class="payment-method-desc">Visa, Mastercard</div>
+                  </div>
+                </label>
+              </div>
+
+              <div class="payment-method-card" data-method="netbanking">
+                <input type="radio" name="paymentMethod" id="paymentNetBanking" value="netbanking" required />
+                <label for="paymentNetBanking" class="payment-method-label">
+                  <div class="payment-method-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+                      <path d="M3 10h18M8 14h8" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <div class="payment-method-info">
+                    <div class="payment-method-name">Net Banking</div>
+                    <div class="payment-method-desc">All major banks</div>
+                  </div>
+                </label>
+              </div>
+
+              <div class="payment-method-card" data-method="cod">
+                <input type="radio" name="paymentMethod" id="paymentCOD" value="cod" required />
+                <label for="paymentCOD" class="payment-method-label">
+                  <div class="payment-method-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <div class="payment-method-info">
+                    <div class="payment-method-name">Cash on Delivery</div>
+                    <div class="payment-method-desc">Pay when you receive</div>
+                  </div>
+                </label>
+              </div>
+
+              <div class="payment-method-card" data-method="wallet">
+                <input type="radio" name="paymentMethod" id="paymentWallet" value="wallet" required />
+                <label for="paymentWallet" class="payment-method-label">
+                  <div class="payment-method-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+                      <path d="M2 10h20" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <div class="payment-method-info">
+                    <div class="payment-method-name">HTH Wallet</div>
+                    <div class="payment-method-desc">Use your HTH wallet balance</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Order Summary</h3>
+            <div id="paymentOrderSummary" class="checkout-order-summary">
+              <!-- Order items will be populated here -->
+            </div>
+            <div class="checkout-total">
+              <div class="total-row">
+                <span>Subtotal</span>
+                <span id="paymentSubtotal">₹0.00</span>
+              </div>
+              <div class="total-row">
+                <span>Delivery Charges</span>
+                <span id="paymentDelivery">₹50.00</span>
+              </div>
+              <div class="total-row total-final">
+                <span>Total</span>
+                <span id="paymentTotal">₹0.00</span>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn checkout-submit-btn" id="proceedToPaymentBtn">Proceed to Payment</button>
         </div>
       </div>
     </div>
@@ -2499,6 +3154,10 @@
       <button id="tabCart" class="mobile-badge" aria-label="Cart">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 3h2l1.5 12h11L21 6H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="20" r="1.5" fill="currentColor"/><circle cx="17" cy="20" r="1.5" fill="currentColor"/></svg>
         <span id="cartCountMobile">0</span>
+      </button>
+      <button id="tabProfile" aria-label="Profile">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zM3 22a9 9 0 1118 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span style="font-size:12px;" id="tabProfileText">Login</span>
       </button>
     </nav>
 
@@ -2559,6 +3218,8 @@
       const existingCustomerBtn = document.getElementById('existingCustomerBtn');
       const checkoutForm = document.getElementById('checkoutForm');
       const checkoutLoginForm = document.getElementById('checkoutLoginForm');
+      const paymentMethodSection = document.getElementById('paymentMethodSection');
+      const proceedToPaymentBtn = document.getElementById('proceedToPaymentBtn');
       const closeFavorites = document.getElementById('closeFavorites');
       const favoritesBody = document.getElementById('favoritesBody');
       const closeCart = document.getElementById('closeCart');
@@ -2669,12 +3330,25 @@
       // Close dropdown when interacting with search
       searchForm?.addEventListener('focusin', () => setMoreMenuOpen(false));
 
+      // Track active modal for navigation
+      let activeModal = null;
+
+      function showHeaderNavButtons() {
+        if (headerNavButtons) headerNavButtons.classList.add('active');
+      }
+
+      function hideHeaderNavButtons() {
+        if (headerNavButtons) headerNavButtons.classList.remove('active');
+      }
+
       function openCartModal() {
         if (cartModalOverlay) {
           cartModalOverlay.classList.add('active');
           cartModalOverlay.setAttribute('aria-hidden', 'false');
           document.body.style.overflow = 'hidden';
           renderCart();
+          activeModal = 'cart';
+          showHeaderNavButtons();
         }
       }
 
@@ -2683,6 +3357,8 @@
           cartModalOverlay.classList.remove('active');
           cartModalOverlay.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = '';
+          activeModal = null;
+          hideHeaderNavButtons();
         }
       }
 
@@ -2692,6 +3368,8 @@
           favoritesModalOverlay.setAttribute('aria-hidden', 'false');
           document.body.style.overflow = 'hidden';
           renderFavorites();
+          activeModal = 'favorites';
+          showHeaderNavButtons();
         }
       }
 
@@ -2700,6 +3378,8 @@
           favoritesModalOverlay.classList.remove('active');
           favoritesModalOverlay.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = '';
+          activeModal = null;
+          hideHeaderNavButtons();
         }
       }
 
@@ -2720,6 +3400,8 @@
           loginModalOverlay.classList.add('active');
           loginModalOverlay.setAttribute('aria-hidden', 'false');
           document.body.style.overflow = 'hidden';
+          activeModal = 'login';
+          showHeaderNavButtons();
         }
       }
 
@@ -2728,10 +3410,241 @@
           loginModalOverlay.classList.remove('active');
           loginModalOverlay.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = '';
+          activeModal = null;
+          hideHeaderNavButtons();
         }
       }
 
-      loginBtn?.addEventListener('click', openLoginModal);
+      // User Database Functions (using localStorage)
+      function getUserDatabase() {
+        const db = localStorage.getItem('userDatabase');
+        return db ? JSON.parse(db) : {};
+      }
+
+      function saveUserDatabase(database) {
+        localStorage.setItem('userDatabase', JSON.stringify(database));
+      }
+
+      function getCurrentUser() {
+        const user = localStorage.getItem('currentUser');
+        return user ? JSON.parse(user) : null;
+      }
+
+      function setCurrentUser(user) {
+        if (user) {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+        } else {
+          localStorage.removeItem('currentUser');
+        }
+        updateLoginButton();
+      }
+
+      function updateLoginButton() {
+        const currentUser = getCurrentUser();
+        const tabProfileText = document.getElementById('tabProfileText');
+        const tabProfile = document.getElementById('tabProfile');
+        
+        if (currentUser && loginBtn) {
+          loginBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 12a5 5 0 100-10 5 5 0 000 10zM3 22a9 9 0 1118 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>${currentUser.name.split(' ')[0]}</span>
+          `;
+          loginBtn.setAttribute('aria-label', 'View Profile');
+          if (tabProfileText) tabProfileText.textContent = currentUser.name.split(' ')[0];
+          if (tabProfile) tabProfile.setAttribute('aria-label', 'View Profile');
+        } else if (loginBtn) {
+          loginBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 12a5 5 0 100-10 5 5 0 000 10zM3 22a9 9 0 1118 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Login</span>
+          `;
+          loginBtn.setAttribute('aria-label', 'Login');
+          if (tabProfileText) tabProfileText.textContent = 'Login';
+          if (tabProfile) tabProfile.setAttribute('aria-label', 'Login');
+        }
+      }
+
+      function renderUserProfile() {
+        const currentUser = getCurrentUser();
+        if (!currentUser || !userProfileContent) return;
+        
+        userProfileContent.innerHTML = `
+          <div class="profile-field">
+            <div class="profile-field-label">Full Name</div>
+            <div class="profile-field-value">${currentUser.name}</div>
+          </div>
+          <div class="profile-field">
+            <div class="profile-field-label">Email Address</div>
+            <div class="profile-field-value">${currentUser.email}</div>
+          </div>
+          <div class="profile-field">
+            <div class="profile-field-label">Phone Number</div>
+            <div class="profile-field-value">${currentUser.phone}</div>
+          </div>
+          <div class="profile-field">
+            <div class="profile-field-label">Address</div>
+            <div class="profile-field-value">${currentUser.address}</div>
+          </div>
+          <div class="profile-field">
+            <div class="profile-field-label">City</div>
+            <div class="profile-field-value">${currentUser.city}</div>
+          </div>
+          <div class="profile-field">
+            <div class="profile-field-label">State</div>
+            <div class="profile-field-value">${currentUser.state}</div>
+          </div>
+          <div class="profile-field">
+            <div class="profile-field-label">Pincode</div>
+            <div class="profile-field-value">${currentUser.pincode}</div>
+          </div>
+        `;
+      }
+
+      function openUserProfile() {
+        if (userProfileModalOverlay) {
+          renderUserProfile();
+          userProfileModalOverlay.classList.add('active');
+          userProfileModalOverlay.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          activeModal = 'profile';
+          showHeaderNavButtons();
+        }
+      }
+
+      function closeUserProfileModalFunc() {
+        if (userProfileModalOverlay) {
+          userProfileModalOverlay.classList.remove('active');
+          userProfileModalOverlay.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+          activeModal = null;
+          hideHeaderNavButtons();
+        }
+      }
+
+      // Toggle between login and signup forms
+      createAccountLink?.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (loginContainer && signupContainer) {
+          loginContainer.style.display = 'none';
+          signupContainer.style.display = 'block';
+        }
+      });
+
+      backToLoginLink?.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (loginContainer && signupContainer) {
+          signupContainer.style.display = 'none';
+          loginContainer.style.display = 'block';
+          // Clear signup form
+          if (signupForm) signupForm.reset();
+          const passwordMatchError = document.getElementById('passwordMatchError');
+          if (passwordMatchError) passwordMatchError.classList.remove('show');
+        }
+      });
+
+      // Signup form submission
+      signupForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('signupName')?.value.trim();
+        const email = document.getElementById('signupEmail')?.value.trim().toLowerCase();
+        const phone = document.getElementById('signupPhone')?.value.trim();
+        const address = document.getElementById('signupAddress')?.value.trim();
+        const city = document.getElementById('signupCity')?.value.trim();
+        const state = document.getElementById('signupState')?.value.trim();
+        const pincode = document.getElementById('signupPincode')?.value.trim();
+        const password = document.getElementById('signupPassword')?.value;
+        const confirmPassword = document.getElementById('signupConfirmPassword')?.value;
+        const privacyPolicy = document.getElementById('signupPrivacyPolicy')?.checked;
+
+        const passwordMatchError = document.getElementById('passwordMatchError');
+        
+        // Validate password match
+        if (password !== confirmPassword) {
+          if (passwordMatchError) passwordMatchError.classList.add('show');
+          showToast('Passwords do not match. Please try again.');
+          return;
+        }
+        
+        if (passwordMatchError) passwordMatchError.classList.remove('show');
+
+        if (!privacyPolicy) {
+          showToast('Please accept the Privacy Policy to continue.');
+          return;
+        }
+
+        // Check if email already exists
+        const database = getUserDatabase();
+        if (database[email]) {
+          showToast('An account with this email already exists. Please login instead.');
+          return;
+        }
+
+        // Create user object
+        const user = {
+          name,
+          email,
+          phone,
+          address,
+          city,
+          state,
+          pincode,
+          password: btoa(password) // Simple encoding (not secure, but works for demo)
+        };
+
+        // Save to database
+        database[email] = user;
+        saveUserDatabase(database);
+
+        // Auto login after signup
+        setCurrentUser(user);
+        showToast('Account created successfully! Welcome to Hands to Heaven.');
+        closeLoginModalFunc();
+        signupForm.reset();
+        if (loginContainer && signupContainer) {
+          signupContainer.style.display = 'none';
+          loginContainer.style.display = 'block';
+        }
+      });
+
+      // Password match validation on input
+      const signupConfirmPassword = document.getElementById('signupConfirmPassword');
+      const signupPassword = document.getElementById('signupPassword');
+      const passwordMatchError = document.getElementById('passwordMatchError');
+      
+      signupConfirmPassword?.addEventListener('input', () => {
+        if (signupPassword?.value && signupConfirmPassword?.value) {
+          if (signupPassword.value !== signupConfirmPassword.value) {
+            if (passwordMatchError) passwordMatchError.classList.add('show');
+          } else {
+            if (passwordMatchError) passwordMatchError.classList.remove('show');
+          }
+        }
+      });
+
+      signupPassword?.addEventListener('input', () => {
+        if (signupPassword.value && signupConfirmPassword?.value) {
+          if (signupPassword.value !== signupConfirmPassword.value) {
+            if (passwordMatchError) passwordMatchError.classList.add('show');
+          } else {
+            if (passwordMatchError) passwordMatchError.classList.remove('show');
+          }
+        }
+      });
+
+      // Login form submission
+      loginBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+          openUserProfile();
+        } else {
+          openLoginModal();
+        }
+      });
+
       closeLoginModal?.addEventListener('click', closeLoginModalFunc);
       loginModalOverlay?.addEventListener('click', (e) => {
         if (e.target === loginModalOverlay) closeLoginModalFunc();
@@ -2739,26 +3652,54 @@
       
       loginForm?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const email = document.getElementById('loginEmail')?.value;
+        const email = document.getElementById('loginEmail')?.value.trim().toLowerCase();
         const password = document.getElementById('loginPassword')?.value;
         
-        if (email && password) {
-          // Here you would typically send the login request to your backend
-          showToast('Login successful! Welcome back.');
-          closeLoginModalFunc();
-          // You can add more logic here like storing user session, redirecting, etc.
+        if (!email || !password) {
+          showToast('Please enter both email and password.');
+          return;
         }
+
+        const database = getUserDatabase();
+        const user = database[email];
+
+        if (!user) {
+          showToast('No account found with this email. Please sign up first.');
+          return;
+        }
+
+        // Check password (decode and compare)
+        if (btoa(password) !== user.password) {
+          showToast('Incorrect password. Please try again.');
+          return;
+        }
+
+        // Login successful
+        setCurrentUser(user);
+        showToast('Login successful! Welcome back.');
+        closeLoginModalFunc();
+        loginForm.reset();
       });
       
       document.getElementById('forgotPasswordLink')?.addEventListener('click', (e) => {
         e.preventDefault();
         showToast('Password reset link will be sent to your email.');
       });
-      
-      document.getElementById('createAccountLink')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        showToast('Sign up feature coming soon!');
+
+      // User Profile Modal
+      closeUserProfileModal?.addEventListener('click', closeUserProfileModalFunc);
+      userProfileModalOverlay?.addEventListener('click', (e) => {
+        if (e.target === userProfileModalOverlay) closeUserProfileModalFunc();
       });
+
+      logoutBtn?.addEventListener('click', () => {
+        setCurrentUser(null);
+        showToast('Logged out successfully.');
+        closeUserProfileModalFunc();
+      });
+
+      // Initialize login button on page load
+      updateLoginButton();
       
       // Checkout Modal Functions
       function openCheckoutModal() {
@@ -2767,14 +3708,67 @@
           checkoutModalOverlay.setAttribute('aria-hidden', 'false');
           document.body.style.overflow = 'hidden';
           renderCheckoutOrderSummary();
-          // Reset to new customer form by default
-          newCustomerBtn?.classList.add('active');
-          existingCustomerBtn?.classList.remove('active');
-          checkoutForm.style.display = 'flex';
-          checkoutLoginForm.style.display = 'none';
+          
+          const currentUser = getCurrentUser();
+          
+          // If user is already logged in, show payment method directly
+          if (currentUser) {
+            checkoutForm.style.display = 'none';
+            checkoutLoginForm.style.display = 'none';
+            paymentMethodSection.style.display = 'flex';
+            document.querySelector('.customer-type-toggle')?.style.setProperty('display', 'none');
+            renderPaymentOrderSummary();
+          } else {
+            // Show login/signup forms
+            newCustomerBtn?.classList.add('active');
+            existingCustomerBtn?.classList.remove('active');
+            checkoutForm.style.display = 'flex';
+            checkoutLoginForm.style.display = 'none';
+            paymentMethodSection.style.display = 'none';
+            document.querySelector('.customer-type-toggle')?.style.setProperty('display', 'flex');
+          }
+          
+          activeModal = 'checkout';
+          showHeaderNavButtons();
         } else if (cart.items.length === 0) {
           showToast('Your cart is empty. Add items to checkout.');
         }
+      }
+      
+      function renderPaymentOrderSummary() {
+        const paymentOrderSummary = document.getElementById('paymentOrderSummary');
+        const paymentSubtotal = document.getElementById('paymentSubtotal');
+        const paymentTotal = document.getElementById('paymentTotal');
+        const deliveryCharges = 50;
+        
+        if (!paymentOrderSummary || cart.items.length === 0) return;
+        
+        const subtotalAmount = cart.total;
+        const totalAmount = subtotalAmount + deliveryCharges;
+        
+        const orderItemsHTML = cart.items.map(item => `
+          <div class="checkout-order-item">
+            <img src="${item.image || 'products/couple ring.jpg'}" alt="${item.title}" onerror="this.src='products/couple ring.jpg'">
+            <div class="checkout-order-item-details">
+              <div class="item-name">${item.title}</div>
+              <div class="item-price">₹${item.price}</div>
+              <div class="item-quantity">Quantity: ${item.quantity || 1}</div>
+            </div>
+          </div>
+        `).join('');
+        
+        paymentOrderSummary.innerHTML = orderItemsHTML;
+        
+        if (paymentSubtotal) paymentSubtotal.textContent = `₹${subtotalAmount.toFixed(2)}`;
+        if (paymentTotal) paymentTotal.textContent = `₹${totalAmount.toFixed(2)}`;
+      }
+      
+      function showPaymentMethodSection() {
+        checkoutForm.style.display = 'none';
+        checkoutLoginForm.style.display = 'none';
+        paymentMethodSection.style.display = 'flex';
+        document.querySelector('.customer-type-toggle')?.style.setProperty('display', 'none');
+        renderPaymentOrderSummary();
       }
 
       function closeCheckoutModalFunc() {
@@ -2782,6 +3776,8 @@
           checkoutModalOverlay.classList.remove('active');
           checkoutModalOverlay.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = '';
+          activeModal = null;
+          hideHeaderNavButtons();
         }
       }
 
@@ -2865,40 +3861,83 @@
           total: cart.total + 50
         };
         
-        // Here you would typically send this to your backend
-        console.log('Checkout data:', formData);
-        showToast('Order placed successfully! Thank you for your purchase.');
-        // Clear cart after successful order
-        cart.items = [];
-        cart.total = 0;
-        localStorage.setItem('cart', JSON.stringify(cart));
-        renderCart();
-        closeCheckoutModalFunc();
+        // Save customer data temporarily (you can save to localStorage or backend)
+        localStorage.setItem('checkoutCustomerData', JSON.stringify(formData));
+        
+        // Show payment method selection
+        showPaymentMethodSection();
       });
 
       // Handle checkout login form submission
       checkoutLoginForm?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const email = document.getElementById('checkoutLoginEmail')?.value;
+        const email = document.getElementById('checkoutLoginEmail')?.value.trim().toLowerCase();
         const password = document.getElementById('checkoutLoginPassword')?.value;
         
-        if (email && password) {
-          // Here you would typically authenticate the user
-          const formData = {
-            email: email,
-            items: cart.items,
-            total: cart.total + 50
-          };
-          
-          console.log('Checkout login data:', formData);
-          showToast('Login successful! Order placed.');
+        if (!email || !password) {
+          showToast('Please enter both email and password.');
+          return;
+        }
+
+        const database = getUserDatabase();
+        const user = database[email];
+
+        if (!user) {
+          showToast('No account found with this email. Please sign up first.');
+          return;
+        }
+
+        // Check password
+        if (btoa(password) !== user.password) {
+          showToast('Incorrect password. Please try again.');
+          return;
+        }
+
+        // Login successful - set current user
+        setCurrentUser(user);
+        showToast('Login successful!');
+        
+        // Show payment method selection
+        showPaymentMethodSection();
+      });
+      
+      // Handle payment method selection and proceed to payment
+      proceedToPaymentBtn?.addEventListener('click', () => {
+        const selectedPayment = document.querySelector('input[name="paymentMethod"]:checked');
+        
+        if (!selectedPayment) {
+          showToast('Please select a payment method.');
+          return;
+        }
+        
+        const paymentMethod = selectedPayment.value;
+        const currentUser = getCurrentUser();
+        const customerData = localStorage.getItem('checkoutCustomerData');
+        
+        const orderData = {
+          paymentMethod: paymentMethod,
+          items: cart.items,
+          total: cart.total + 50,
+          user: currentUser || (customerData ? JSON.parse(customerData) : null)
+        };
+        
+        // Here you would typically send this to your backend for payment processing
+        console.log('Order data with payment method:', orderData);
+        
+        // Simulate payment processing
+        showToast(`Processing payment via ${paymentMethod.toUpperCase()}...`);
+        
+        // After successful payment (simulated)
+        setTimeout(() => {
+          showToast('Order placed successfully! Thank you for your purchase.');
           // Clear cart after successful order
           cart.items = [];
           cart.total = 0;
           localStorage.setItem('cart', JSON.stringify(cart));
+          localStorage.removeItem('checkoutCustomerData');
           renderCart();
           closeCheckoutModalFunc();
-        }
+        }, 2000);
       });
 
       document.getElementById('checkoutForgotPassword')?.addEventListener('click', (e) => {
@@ -2912,6 +3951,7 @@
           closeFavoritesModal();
           closeLoginModalFunc();
           closeCheckoutModalFunc();
+          closeUserProfileModalFunc();
         }
       });
       
@@ -3155,8 +4195,8 @@
         productModalOverlay.classList.add('active');
         productModalOverlay.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
-        // Show header navigation buttons
-        if (headerNavButtons) headerNavButtons.classList.add('active');
+        activeModal = 'product';
+        showHeaderNavButtons();
       }
 
       function closeProductModal() {
@@ -3165,8 +4205,8 @@
         productModalOverlay.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         activeProductId = null;
-        // Hide header navigation buttons
-        if (headerNavButtons) headerNavButtons.classList.remove('active');
+        activeModal = null;
+        hideHeaderNavButtons();
       }
 
       function bindProductCardClicks() {
@@ -3316,7 +4356,37 @@
         }
       });
 
-      headerBackBtn?.addEventListener('click', closeProductModal);
+      // Universal back button handler - closes whichever modal is active
+      headerBackBtn?.addEventListener('click', () => {
+        switch(activeModal) {
+          case 'product':
+            closeProductModal();
+            break;
+          case 'cart':
+            closeCartModal();
+            break;
+          case 'favorites':
+            closeFavoritesModal();
+            break;
+          case 'login':
+            closeLoginModalFunc();
+            break;
+          case 'profile':
+            closeUserProfileModalFunc();
+            break;
+          case 'checkout':
+            closeCheckoutModalFunc();
+            break;
+          default:
+            // If no specific modal, try to close any open modal
+            if (productModalOverlay?.classList.contains('active')) closeProductModal();
+            else if (cartModalOverlay?.classList.contains('active')) closeCartModal();
+            else if (favoritesModalOverlay?.classList.contains('active')) closeFavoritesModal();
+            else if (loginModalOverlay?.classList.contains('active')) closeLoginModalFunc();
+            else if (userProfileModalOverlay?.classList.contains('active')) closeUserProfileModalFunc();
+            else if (checkoutModalOverlay?.classList.contains('active')) closeCheckoutModalFunc();
+        }
+      });
       productModalOverlay?.addEventListener('click', (e) => {
         if (e.target === productModalOverlay) closeProductModal();
       });
@@ -3601,6 +4671,16 @@
       });
       document.getElementById('tabProducts')?.addEventListener('click', () => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }));
       document.getElementById('tabCart')?.addEventListener('click', () => openCartModal());
+      
+      // Mobile tab bar profile button
+      document.getElementById('tabProfile')?.addEventListener('click', () => {
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+          openUserProfile();
+        } else {
+          openLoginModal();
+        }
+      });
 
       // Load products.json and build UI
       function renderProductCards(list) {
