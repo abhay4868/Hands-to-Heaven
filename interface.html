@@ -1669,6 +1669,7 @@
         max-height: 90vh;
         overflow-y: auto;
         margin: auto;
+        padding-bottom: 20px;
       }
       .checkout-modal-close {
         position: absolute;
@@ -1867,6 +1868,27 @@
         box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
       }
       .checkout-submit-btn:active {
+        transform: translateY(0);
+      }
+      .checkout-skip-btn {
+        width: 100%;
+        padding: 14px;
+        background: transparent;
+        color: var(--brand);
+        border: 2px solid var(--brand);
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 12px;
+      }
+      .checkout-skip-btn:hover {
+        background: var(--accent);
+        border-color: var(--brand-600);
+        color: var(--brand-600);
+      }
+      .checkout-skip-btn:active {
         transform: translateY(0);
       }
       
@@ -2886,126 +2908,173 @@
         <div class="checkout-content">
           <h2>Checkout</h2>
           
-          <!-- Customer Type Toggle -->
-          <div class="customer-type-toggle">
-            <button type="button" class="toggle-btn active" id="newCustomerBtn">New Customer</button>
-            <button type="button" class="toggle-btn" id="existingCustomerBtn">Already Have Account</button>
-          </div>
-
-          <!-- New Customer Form -->
-          <form id="checkoutForm" class="checkout-form">
-            <div class="form-section">
-              <h3>Personal Information</h3>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="checkoutFirstName">First Name *</label>
-                  <input type="text" id="checkoutFirstName" placeholder="Enter your first name" required />
-                </div>
-                <div class="form-group">
-                  <label for="checkoutLastName">Last Name *</label>
-                  <input type="text" id="checkoutLastName" placeholder="Enter your last name" required />
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="checkoutEmail">Email Address *</label>
-                <input type="email" id="checkoutEmail" placeholder="Enter your email" required />
-              </div>
-              <div class="form-group">
-                <label for="checkoutPhone">Phone Number *</label>
-                <input type="tel" id="checkoutPhone" placeholder="Enter your phone number" required />
-              </div>
+          <!-- Login/Signup Section (shown only if not logged in) -->
+          <div id="checkoutLoginSignupSection">
+            <!-- Customer Type Toggle -->
+            <div class="customer-type-toggle">
+              <button type="button" class="toggle-btn active" id="newCustomerBtn">New Customer</button>
+              <button type="button" class="toggle-btn" id="existingCustomerBtn">Already Have Account</button>
             </div>
 
+            <!-- New Customer Signup Form -->
+            <form id="checkoutForm" class="checkout-form">
+              <div class="form-section">
+                <h3>Create Account to Continue</h3>
+                <div class="form-group">
+                  <label for="checkoutSignupEmail">Email Address *</label>
+                  <input type="email" id="checkoutSignupEmail" placeholder="Enter your email" required />
+                </div>
+                <div class="form-group">
+                  <label for="checkoutSignupPassword">Password *</label>
+                  <input type="password" id="checkoutSignupPassword" placeholder="Create a password" required />
+                </div>
+                <div class="form-group">
+                  <label for="checkoutSignupConfirmPassword">Confirm Password *</label>
+                  <input type="password" id="checkoutSignupConfirmPassword" placeholder="Confirm password" required />
+                  <span id="checkoutPasswordMatchError" class="error-message">Passwords do not match</span>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <h3>Order Summary</h3>
+                <div id="checkoutOrderSummary" class="checkout-order-summary">
+                  <!-- Order items will be populated here -->
+                </div>
+                <div class="checkout-total">
+                  <div class="total-row">
+                    <span>Subtotal</span>
+                    <span id="checkoutSubtotal">₹0.00</span>
+                  </div>
+                  <div class="total-row">
+                    <span>Delivery Charges</span>
+                    <span id="checkoutDelivery">₹50.00</span>
+                  </div>
+                  <div class="total-row total-final">
+                    <span>Total</span>
+                    <span id="checkoutTotal">₹0.00</span>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn checkout-submit-btn">Create Account & Continue</button>
+            </form>
+
+            <!-- Existing Customer Login Form -->
+            <form id="checkoutLoginForm" class="checkout-form" style="display: none;">
+              <div class="form-section">
+                <h3>Login to Continue</h3>
+                <div class="form-group">
+                  <label for="checkoutLoginEmail">Email Address *</label>
+                  <input type="email" id="checkoutLoginEmail" placeholder="Enter your email" required />
+                </div>
+                <div class="form-group">
+                  <label for="checkoutLoginPassword">Password *</label>
+                  <input type="password" id="checkoutLoginPassword" placeholder="Enter your password" required />
+                </div>
+                <div class="form-links">
+                  <a href="#" id="checkoutForgotPassword">Forgot Password?</a>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <h3>Order Summary</h3>
+                <div id="checkoutLoginOrderSummary" class="checkout-order-summary">
+                  <!-- Order items will be populated here -->
+                </div>
+                <div class="checkout-total">
+                  <div class="total-row">
+                    <span>Subtotal</span>
+                    <span id="checkoutLoginSubtotal">₹0.00</span>
+                  </div>
+                  <div class="total-row">
+                    <span>Delivery Charges</span>
+                    <span id="checkoutLoginDelivery">₹50.00</span>
+                  </div>
+                  <div class="total-row total-final">
+                    <span>Total</span>
+                    <span id="checkoutLoginTotal">₹0.00</span>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn checkout-submit-btn">Login & Continue</button>
+            </form>
+          </div>
+
+          <!-- Address Form (shown after login/signup) -->
+          <div id="addressFormSection" class="checkout-form" style="display: none;">
             <div class="form-section">
               <h3>Delivery Address</h3>
               <div class="form-group">
-                <label for="checkoutAddress">Street Address *</label>
-                <input type="text" id="checkoutAddress" placeholder="House/Flat No., Street Name" required />
+                <label for="addressName">Name *</label>
+                <input type="text" id="addressName" placeholder="Enter your name" required />
               </div>
               <div class="form-group">
-                <label for="checkoutAddress2">Address Line 2 (Optional)</label>
-                <input type="text" id="checkoutAddress2" placeholder="Apartment, suite, etc." />
+                <label for="addressLocality">Locality *</label>
+                <input type="text" id="addressLocality" placeholder="Enter locality" required />
+              </div>
+              <div class="form-group">
+                <label for="addressNear">Near *</label>
+                <input type="text" id="addressNear" placeholder="Landmark or nearby place" required />
               </div>
               <div class="form-row">
                 <div class="form-group">
-                  <label for="checkoutCity">City *</label>
-                  <input type="text" id="checkoutCity" placeholder="Enter city" required />
+                  <label for="addressCity">City *</label>
+                  <input type="text" id="addressCity" placeholder="Enter city" required />
                 </div>
                 <div class="form-group">
-                  <label for="checkoutState">State *</label>
-                  <input type="text" id="checkoutState" placeholder="Enter state" required />
+                  <label for="addressState">State *</label>
+                  <input type="text" id="addressState" placeholder="Enter state" required />
                 </div>
               </div>
               <div class="form-group">
-                <label for="checkoutPincode">Pincode *</label>
-                <input type="text" id="checkoutPincode" placeholder="Enter pincode" required pattern="[0-9]{6}" />
+                <label for="addressPincode">Pincode *</label>
+                <input type="text" id="addressPincode" placeholder="Enter pincode" required pattern="[0-9]{6}" maxlength="6" />
+              </div>
+              <div class="form-group">
+                <label for="addressContact">Contact Number *</label>
+                <input type="tel" id="addressContact" placeholder="Enter contact number" required />
+              </div>
+              <div class="form-group">
+                <label class="checkbox-label" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" id="addressSetAsDefault" style="width: auto; margin: 0;" />
+                  <span>Add as default</span>
+                </label>
               </div>
             </div>
 
             <div class="form-section">
               <h3>Order Summary</h3>
-              <div id="checkoutOrderSummary" class="checkout-order-summary">
+              <div id="addressOrderSummary" class="checkout-order-summary">
                 <!-- Order items will be populated here -->
               </div>
               <div class="checkout-total">
                 <div class="total-row">
                   <span>Subtotal</span>
-                  <span id="checkoutSubtotal">₹0.00</span>
+                  <span id="addressSubtotal">₹0.00</span>
                 </div>
                 <div class="total-row">
                   <span>Delivery Charges</span>
-                  <span id="checkoutDelivery">₹50.00</span>
+                  <span id="addressDelivery">₹50.00</span>
                 </div>
                 <div class="total-row total-final">
                   <span>Total</span>
-                  <span id="checkoutTotal">₹0.00</span>
+                  <span id="addressTotal">₹0.00</span>
                 </div>
               </div>
             </div>
 
-            <button type="submit" class="btn checkout-submit-btn">Continue to Payment</button>
-          </form>
-
-          <!-- Existing Customer Login Form -->
-          <form id="checkoutLoginForm" class="checkout-form" style="display: none;">
-            <div class="form-section">
-              <h3>Login to Continue</h3>
-              <div class="form-group">
-                <label for="checkoutLoginEmail">Email Address *</label>
-                <input type="email" id="checkoutLoginEmail" placeholder="Enter your email" required />
-              </div>
-              <div class="form-group">
-                <label for="checkoutLoginPassword">Password *</label>
-                <input type="password" id="checkoutLoginPassword" placeholder="Enter your password" required />
-              </div>
-              <div class="form-links">
-                <a href="#" id="checkoutForgotPassword">Forgot Password?</a>
-              </div>
+            <div class="form-section" style="margin-top: 32px; padding-top: 24px; border-top: 2px solid var(--border); padding-bottom: 20px;">
+              <button type="button" class="btn checkout-submit-btn" id="proceedToPaymentFromAddress" style="width: 100%; padding: 18px; font-size: 18px; font-weight: 700; background: var(--primary); color: #ffffff; border: none; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
+                <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block;">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Payment Details
+                </span>
+              </button>
             </div>
-
-            <div class="form-section">
-              <h3>Order Summary</h3>
-              <div id="checkoutLoginOrderSummary" class="checkout-order-summary">
-                <!-- Order items will be populated here -->
-              </div>
-              <div class="checkout-total">
-                <div class="total-row">
-                  <span>Subtotal</span>
-                  <span id="checkoutLoginSubtotal">₹0.00</span>
-                </div>
-                <div class="total-row">
-                  <span>Delivery Charges</span>
-                  <span id="checkoutLoginDelivery">₹50.00</span>
-                </div>
-                <div class="total-row total-final">
-                  <span>Total</span>
-                  <span id="checkoutLoginTotal">₹0.00</span>
-                </div>
-              </div>
-            </div>
-
-            <button type="submit" class="btn checkout-submit-btn">Login & Continue</button>
-          </form>
+          </div>
         </div>
 
         <!-- Payment Method Selection (hidden by default) -->
@@ -3218,7 +3287,10 @@
       const existingCustomerBtn = document.getElementById('existingCustomerBtn');
       const checkoutForm = document.getElementById('checkoutForm');
       const checkoutLoginForm = document.getElementById('checkoutLoginForm');
+      const checkoutLoginSignupSection = document.getElementById('checkoutLoginSignupSection');
+      const addressFormSection = document.getElementById('addressFormSection');
       const paymentMethodSection = document.getElementById('paymentMethodSection');
+      const proceedToPaymentFromAddress = document.getElementById('proceedToPaymentFromAddress');
       const proceedToPaymentBtn = document.getElementById('proceedToPaymentBtn');
       const closeFavorites = document.getElementById('closeFavorites');
       const favoritesBody = document.getElementById('favoritesBody');
@@ -3711,21 +3783,30 @@
           
           const currentUser = getCurrentUser();
           
-          // If user is already logged in, show payment method directly
+          // If user is already logged in, show address form directly
           if (currentUser) {
-            checkoutForm.style.display = 'none';
-            checkoutLoginForm.style.display = 'none';
-            paymentMethodSection.style.display = 'flex';
-            document.querySelector('.customer-type-toggle')?.style.setProperty('display', 'none');
-            renderPaymentOrderSummary();
+            checkoutLoginSignupSection.style.display = 'none';
+            addressFormSection.style.display = 'flex';
+            paymentMethodSection.style.display = 'none';
+            renderAddressOrderSummary();
+            // Pre-fill name and contact from user profile if available
+            if (currentUser.name) {
+              const addressNameInput = document.getElementById('addressName');
+              if (addressNameInput) addressNameInput.value = currentUser.name;
+            }
+            if (currentUser.phone) {
+              const addressContactInput = document.getElementById('addressContact');
+              if (addressContactInput) addressContactInput.value = currentUser.phone;
+            }
           } else {
             // Show login/signup forms
+            checkoutLoginSignupSection.style.display = 'block';
+            addressFormSection.style.display = 'none';
+            paymentMethodSection.style.display = 'none';
             newCustomerBtn?.classList.add('active');
             existingCustomerBtn?.classList.remove('active');
             checkoutForm.style.display = 'flex';
             checkoutLoginForm.style.display = 'none';
-            paymentMethodSection.style.display = 'none';
-            document.querySelector('.customer-type-toggle')?.style.setProperty('display', 'flex');
           }
           
           activeModal = 'checkout';
@@ -3763,11 +3844,45 @@
         if (paymentTotal) paymentTotal.textContent = `₹${totalAmount.toFixed(2)}`;
       }
       
+      function renderAddressOrderSummary() {
+        const addressOrderSummary = document.getElementById('addressOrderSummary');
+        const addressSubtotal = document.getElementById('addressSubtotal');
+        const addressTotal = document.getElementById('addressTotal');
+        const deliveryCharges = 50;
+        
+        if (!addressOrderSummary || cart.items.length === 0) return;
+        
+        const subtotalAmount = cart.total;
+        const totalAmount = subtotalAmount + deliveryCharges;
+        
+        const orderItemsHTML = cart.items.map(item => `
+          <div class="checkout-order-item">
+            <img src="${item.image || 'products/couple ring.jpg'}" alt="${item.title}" onerror="this.src='products/couple ring.jpg'">
+            <div class="checkout-order-item-details">
+              <div class="item-name">${item.title}</div>
+              <div class="item-price">₹${item.price}</div>
+              <div class="item-quantity">Quantity: ${item.quantity || 1}</div>
+            </div>
+          </div>
+        `).join('');
+        
+        addressOrderSummary.innerHTML = orderItemsHTML;
+        
+        if (addressSubtotal) addressSubtotal.textContent = `₹${subtotalAmount.toFixed(2)}`;
+        if (addressTotal) addressTotal.textContent = `₹${totalAmount.toFixed(2)}`;
+      }
+      
+      function showAddressFormSection() {
+        checkoutLoginSignupSection.style.display = 'none';
+        addressFormSection.style.display = 'flex';
+        paymentMethodSection.style.display = 'none';
+        renderAddressOrderSummary();
+      }
+      
       function showPaymentMethodSection() {
-        checkoutForm.style.display = 'none';
-        checkoutLoginForm.style.display = 'none';
+        checkoutLoginSignupSection.style.display = 'none';
+        addressFormSection.style.display = 'none';
         paymentMethodSection.style.display = 'flex';
-        document.querySelector('.customer-type-toggle')?.style.setProperty('display', 'none');
         renderPaymentOrderSummary();
       }
 
@@ -3844,28 +3959,78 @@
         renderCheckoutOrderSummary();
       });
 
-      // Handle checkout form submission (new customer)
+      // Password match validation for checkout signup
+      const checkoutSignupPassword = document.getElementById('checkoutSignupPassword');
+      const checkoutSignupConfirmPassword = document.getElementById('checkoutSignupConfirmPassword');
+      const checkoutPasswordMatchError = document.getElementById('checkoutPasswordMatchError');
+      
+      checkoutSignupConfirmPassword?.addEventListener('input', () => {
+        if (checkoutSignupPassword?.value && checkoutSignupConfirmPassword?.value) {
+          if (checkoutSignupPassword.value !== checkoutSignupConfirmPassword.value) {
+            if (checkoutPasswordMatchError) checkoutPasswordMatchError.classList.add('show');
+          } else {
+            if (checkoutPasswordMatchError) checkoutPasswordMatchError.classList.remove('show');
+          }
+        }
+      });
+
+      checkoutSignupPassword?.addEventListener('input', () => {
+        if (checkoutSignupPassword.value && checkoutSignupConfirmPassword?.value) {
+          if (checkoutSignupPassword.value !== checkoutSignupConfirmPassword.value) {
+            if (checkoutPasswordMatchError) checkoutPasswordMatchError.classList.add('show');
+          } else {
+            if (checkoutPasswordMatchError) checkoutPasswordMatchError.classList.remove('show');
+          }
+        }
+      });
+
+      // Handle checkout signup form submission (new customer)
       checkoutForm?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const formData = {
-          firstName: document.getElementById('checkoutFirstName')?.value,
-          lastName: document.getElementById('checkoutLastName')?.value,
-          email: document.getElementById('checkoutEmail')?.value,
-          phone: document.getElementById('checkoutPhone')?.value,
-          address: document.getElementById('checkoutAddress')?.value,
-          address2: document.getElementById('checkoutAddress2')?.value,
-          city: document.getElementById('checkoutCity')?.value,
-          state: document.getElementById('checkoutState')?.value,
-          pincode: document.getElementById('checkoutPincode')?.value,
-          items: cart.items,
-          total: cart.total + 50
+        const email = document.getElementById('checkoutSignupEmail')?.value.trim().toLowerCase();
+        const password = document.getElementById('checkoutSignupPassword')?.value;
+        const confirmPassword = document.getElementById('checkoutSignupConfirmPassword')?.value;
+        
+        const passwordMatchError = document.getElementById('checkoutPasswordMatchError');
+        
+        // Validate password match
+        if (password !== confirmPassword) {
+          if (passwordMatchError) passwordMatchError.classList.add('show');
+          showToast('Passwords do not match. Please try again.');
+          return;
+        }
+        
+        if (passwordMatchError) passwordMatchError.classList.remove('show');
+
+        // Check if email already exists
+        const database = getUserDatabase();
+        if (database[email]) {
+          showToast('An account with this email already exists. Please login instead.');
+          return;
+        }
+
+        // Create user object (minimal for checkout)
+        const user = {
+          name: '', // Will be filled in address form
+          email: email,
+          phone: '', // Will be filled in address form
+          address: '',
+          city: '',
+          state: '',
+          pincode: '',
+          password: btoa(password)
         };
+
+        // Save to database
+        database[email] = user;
+        saveUserDatabase(database);
+
+        // Auto login after signup
+        setCurrentUser(user);
+        showToast('Account created successfully!');
         
-        // Save customer data temporarily (you can save to localStorage or backend)
-        localStorage.setItem('checkoutCustomerData', JSON.stringify(formData));
-        
-        // Show payment method selection
-        showPaymentMethodSection();
+        // Show address form
+        showAddressFormSection();
       });
 
       // Handle checkout login form submission
@@ -3897,6 +4062,57 @@
         setCurrentUser(user);
         showToast('Login successful!');
         
+        // Show address form
+        showAddressFormSection();
+      });
+      
+      // Handle address form submission
+      proceedToPaymentFromAddress?.addEventListener('click', () => {
+        const name = document.getElementById('addressName')?.value.trim();
+        const locality = document.getElementById('addressLocality')?.value.trim();
+        const near = document.getElementById('addressNear')?.value.trim();
+        const city = document.getElementById('addressCity')?.value.trim();
+        const state = document.getElementById('addressState')?.value.trim();
+        const pincode = document.getElementById('addressPincode')?.value.trim();
+        const contact = document.getElementById('addressContact')?.value.trim();
+        const setAsDefault = document.getElementById('addressSetAsDefault')?.checked;
+        
+        if (!name || !locality || !near || !city || !state || !pincode || !contact) {
+          showToast('Please fill all required address fields.');
+          return;
+        }
+        
+        const addressData = {
+          name,
+          locality,
+          near,
+          city,
+          state,
+          pincode,
+          contact,
+          setAsDefault
+        };
+        
+        // Save address data
+        localStorage.setItem('checkoutAddressData', JSON.stringify(addressData));
+        
+        // If set as default, update user profile
+        const currentUser = getCurrentUser();
+        if (currentUser && setAsDefault) {
+          currentUser.name = name;
+          currentUser.phone = contact;
+          currentUser.address = `${locality}, Near ${near}`;
+          currentUser.city = city;
+          currentUser.state = state;
+          currentUser.pincode = pincode;
+          setCurrentUser(currentUser);
+          
+          // Update in database
+          const database = getUserDatabase();
+          database[currentUser.email] = currentUser;
+          saveUserDatabase(database);
+        }
+        
         // Show payment method selection
         showPaymentMethodSection();
       });
@@ -3914,11 +4130,14 @@
         const currentUser = getCurrentUser();
         const customerData = localStorage.getItem('checkoutCustomerData');
         
+        const addressData = localStorage.getItem('checkoutAddressData');
+        
         const orderData = {
           paymentMethod: paymentMethod,
           items: cart.items,
           total: cart.total + 50,
-          user: currentUser || (customerData ? JSON.parse(customerData) : null)
+          user: currentUser || null,
+          address: addressData ? JSON.parse(addressData) : null
         };
         
         // Here you would typically send this to your backend for payment processing
@@ -4237,8 +4456,18 @@
         if (!activeProductId) return;
         const product = allProducts.find(p => p.id === activeProductId);
         if (!product) return;
-        addProductToCartData({ title: product.title, variant: product.subtitle, price: product.price });
-        openCartModal();
+        // Clear cart and add only this product for Buy Now
+        cart.items = [];
+        cart.total = 0;
+        addProductToCartData({ 
+          title: product.title, 
+          variant: product.subtitle, 
+          price: product.price,
+          image: product.image
+        });
+            renderCart();
+        closeProductModal();
+        setTimeout(() => openCheckoutModal(), 300);
       });
 
       // Mobile search modal
