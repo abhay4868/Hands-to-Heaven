@@ -1870,6 +1870,51 @@
       .checkout-submit-btn:active {
         transform: translateY(0);
       }
+      .address-list-container {
+        display: grid;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .address-card {
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: var(--card);
+      }
+      .address-card:hover {
+        border-color: var(--primary);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+      }
+      .address-card.selected {
+        border-color: var(--primary);
+        background: rgba(59, 130, 246, 0.05);
+      }
+      .address-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
+      .address-card-name {
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
+      .address-card-details {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .address-card-radio {
+        margin-top: 4px;
+      }
+      .no-address-message {
+        padding: 40px 20px;
+        text-align: center;
+      }
       .checkout-skip-btn {
         width: 100%;
         padding: 14px;
@@ -2765,61 +2810,6 @@
               </div>
             </div>
 
-            <!-- Address Information Section -->
-            <div class="form-section-wrapper">
-              <div class="form-section-header">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
-                  <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
-                </svg>
-                <h3>Delivery Address</h3>
-              </div>
-              <div class="form-fields-grid">
-                <div class="input-box full-width">
-                  <label>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
-                      <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                    Street Address *
-                  </label>
-                  <input type="text" id="signupAddress" placeholder="House/Flat No., Street Name" required />
-                </div>
-                <div class="input-box">
-                  <label>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
-                      <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                    City *
-                  </label>
-                  <input type="text" id="signupCity" placeholder="Mumbai" required />
-                </div>
-                <div class="input-box">
-                  <label>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
-                      <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                    State *
-                  </label>
-                  <input type="text" id="signupState" placeholder="Maharashtra" required />
-                </div>
-                <div class="input-box">
-                  <label>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
-                      <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2"/>
-                      <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2"/>
-                      <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                    Pincode *
-                  </label>
-                  <input type="text" id="signupPincode" placeholder="400001" required pattern="[0-9]{6}" maxlength="6" />
-                </div>
-              </div>
-            </div>
-
             <!-- Security Section -->
             <div class="form-section-wrapper">
               <div class="form-section-header">
@@ -2956,8 +2946,53 @@
                 </div>
               </div>
 
-              <button type="submit" class="btn checkout-submit-btn">Create Account & Continue</button>
+              <button type="submit" class="btn checkout-submit-btn">Create Account</button>
             </form>
+            
+            <!-- Continue to Address Button (shown after successful login/signup) -->
+            <div id="continueToAddressSection" class="checkout-form" style="display: none;">
+              <div class="form-section">
+                <div style="text-align: center; padding: 20px; background: var(--accent); border-radius: 12px; margin-bottom: 24px;">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin: 0 auto 12px; color: #10b981;">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <h3 style="margin: 0 0 8px 0; color: var(--text);">Account Created Successfully!</h3>
+                  <p style="margin: 0; color: var(--muted);">Please continue to add your delivery address.</p>
+                </div>
+              </div>
+              
+              <div class="form-section">
+                <h3>Order Summary</h3>
+                <div id="continueOrderSummary" class="checkout-order-summary">
+                  <!-- Order items will be populated here -->
+                </div>
+                <div class="checkout-total">
+                  <div class="total-row">
+                    <span>Subtotal</span>
+                    <span id="continueSubtotal">₹0.00</span>
+                  </div>
+                  <div class="total-row">
+                    <span>Delivery Charges</span>
+                    <span id="continueDelivery">₹50.00</span>
+                  </div>
+                  <div class="total-row total-final">
+                    <span>Total</span>
+                    <span id="continueTotal">₹0.00</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-section" style="margin-top: 32px; padding-top: 24px; border-top: 2px solid var(--border);">
+                <button type="button" class="btn checkout-submit-btn" id="continueToAddressBtn" style="width: 100%; padding: 20px; font-size: 18px; font-weight: 700; background: var(--primary); color: #ffffff; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
+                  <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    Continue to Address
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
 
             <!-- Existing Customer Login Form -->
             <form id="checkoutLoginForm" class="checkout-form" style="display: none;">
@@ -2997,8 +3032,106 @@
                 </div>
               </div>
 
-              <button type="submit" class="btn checkout-submit-btn">Login & Continue</button>
+              <button type="submit" class="btn checkout-submit-btn">Login</button>
             </form>
+            
+            <!-- Continue to Address Button for Login (shown after successful login) -->
+            <div id="continueToAddressSectionLogin" class="checkout-form" style="display: none; width: 100%;">
+              <div class="form-section">
+                <div style="text-align: center; padding: 20px; background: var(--accent); border-radius: 12px; margin-bottom: 24px;">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin: 0 auto 12px; color: #10b981;">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <h3 style="margin: 0 0 8px 0; color: var(--text);">Login Successful!</h3>
+                  <p style="margin: 0; color: var(--muted);">Please continue to add your delivery address.</p>
+                </div>
+              </div>
+              
+              <div class="form-section">
+                <h3>Order Summary</h3>
+                <div id="continueOrderSummaryLogin" class="checkout-order-summary">
+                  <!-- Order items will be populated here -->
+                </div>
+                <div class="checkout-total">
+                  <div class="total-row">
+                    <span>Subtotal</span>
+                    <span id="continueSubtotalLogin">₹0.00</span>
+                  </div>
+                  <div class="total-row">
+                    <span>Delivery Charges</span>
+                    <span id="continueDeliveryLogin">₹50.00</span>
+                  </div>
+                  <div class="total-row total-final">
+                    <span>Total</span>
+                    <span id="continueTotalLogin">₹0.00</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-section" style="margin-top: 32px; padding-top: 24px; border-top: 2px solid var(--border);">
+                <button type="button" class="btn checkout-submit-btn" id="continueToAddressBtnLogin" style="width: 100%; padding: 20px; font-size: 18px; font-weight: 700; background: var(--primary); color: #ffffff; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
+                  <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    Continue to Address
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Address Selection Interface (shown for logged-in users on Buy Now) -->
+          <div id="addressSelectionSection" class="checkout-form" style="display: none;">
+            <div class="form-section">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h3 style="margin: 0;">Select Delivery Address</h3>
+                <button type="button" class="btn" id="addNewAddressBtn" style="padding: 8px 16px; font-size: 14px; background: var(--primary); color: #ffffff; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  Add New
+                </button>
+              </div>
+              <div id="addressListContainer" class="address-list-container">
+                <!-- Address cards will be populated here -->
+              </div>
+              <div id="noAddressMessage" class="no-address-message" style="display: none; text-align: center; padding: 40px 20px;">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin: 0 auto 16px; color: var(--muted);">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
+                  <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <h4 style="margin: 0 0 8px 0; color: var(--text);">No Address Found</h4>
+                <p style="margin: 0 0 24px 0; color: var(--muted);">You haven't placed any orders yet. Add your first delivery address.</p>
+                <button type="button" class="btn checkout-submit-btn" id="addFirstAddressBtn" style="width: auto; padding: 12px 24px; display: inline-flex; align-items: center; gap: 8px;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  Add Address
+                </button>
+              </div>
+            </div>
+            
+            <div class="form-section">
+              <h3>Order Summary</h3>
+              <div id="addressSelectionOrderSummary" class="checkout-order-summary">
+                <!-- Order items will be populated here -->
+              </div>
+              <div class="checkout-total">
+                <div class="total-row">
+                  <span>Subtotal</span>
+                  <span id="addressSelectionSubtotal">₹0.00</span>
+                </div>
+                <div class="total-row">
+                  <span>Delivery Charges</span>
+                  <span id="addressSelectionDelivery">₹50.00</span>
+                </div>
+                <div class="total-row total-final">
+                  <span>Total</span>
+                  <span id="addressSelectionTotal">₹0.00</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Address Form (shown after login/signup) -->
@@ -3289,9 +3422,16 @@
       const checkoutLoginForm = document.getElementById('checkoutLoginForm');
       const checkoutLoginSignupSection = document.getElementById('checkoutLoginSignupSection');
       const addressFormSection = document.getElementById('addressFormSection');
+      const addressSelectionSection = document.getElementById('addressSelectionSection');
+      const addressListContainer = document.getElementById('addressListContainer');
+      const noAddressMessage = document.getElementById('noAddressMessage');
+      const addNewAddressBtn = document.getElementById('addNewAddressBtn');
+      const addFirstAddressBtn = document.getElementById('addFirstAddressBtn');
       const paymentMethodSection = document.getElementById('paymentMethodSection');
       const proceedToPaymentFromAddress = document.getElementById('proceedToPaymentFromAddress');
       const proceedToPaymentBtn = document.getElementById('proceedToPaymentBtn');
+      const continueToAddressBtn = document.getElementById('continueToAddressBtn');
+      const continueToAddressBtnLogin = document.getElementById('continueToAddressBtnLogin');
       const closeFavorites = document.getElementById('closeFavorites');
       const favoritesBody = document.getElementById('favoritesBody');
       const closeCart = document.getElementById('closeCart');
@@ -3623,10 +3763,6 @@
         const name = document.getElementById('signupName')?.value.trim();
         const email = document.getElementById('signupEmail')?.value.trim().toLowerCase();
         const phone = document.getElementById('signupPhone')?.value.trim();
-        const address = document.getElementById('signupAddress')?.value.trim();
-        const city = document.getElementById('signupCity')?.value.trim();
-        const state = document.getElementById('signupState')?.value.trim();
-        const pincode = document.getElementById('signupPincode')?.value.trim();
         const password = document.getElementById('signupPassword')?.value;
         const confirmPassword = document.getElementById('signupConfirmPassword')?.value;
         const privacyPolicy = document.getElementById('signupPrivacyPolicy')?.checked;
@@ -3659,10 +3795,10 @@
           name,
           email,
           phone,
-          address,
-          city,
-          state,
-          pincode,
+          address: '',
+          city: '',
+          state: '',
+          pincode: '',
           password: btoa(password) // Simple encoding (not secure, but works for demo)
         };
 
@@ -3673,11 +3809,20 @@
         // Auto login after signup
         setCurrentUser(user);
         showToast('Account created successfully! Welcome to Hands to Heaven.');
-        closeLoginModalFunc();
         signupForm.reset();
         if (loginContainer && signupContainer) {
           signupContainer.style.display = 'none';
           loginContainer.style.display = 'block';
+        }
+        
+        // Check if there's a pending checkout action (from Buy Now button)
+        const pendingCheckout = localStorage.getItem('pendingCheckout');
+        if (pendingCheckout === 'true') {
+          localStorage.removeItem('pendingCheckout');
+          closeLoginModalFunc();
+          setTimeout(() => openCheckoutModal(), 300);
+        } else {
+          closeLoginModalFunc();
         }
       });
 
@@ -3749,8 +3894,17 @@
         // Login successful
         setCurrentUser(user);
         showToast('Login successful! Welcome back.');
-        closeLoginModalFunc();
         loginForm.reset();
+        
+        // Check if there's a pending checkout action (from Buy Now button)
+        const pendingCheckout = localStorage.getItem('pendingCheckout');
+        if (pendingCheckout === 'true') {
+          localStorage.removeItem('pendingCheckout');
+          closeLoginModalFunc();
+          setTimeout(() => openCheckoutModal(), 300);
+        } else {
+          closeLoginModalFunc();
+        }
       });
       
       document.getElementById('forgotPasswordLink')?.addEventListener('click', (e) => {
@@ -3814,6 +3968,69 @@
         } else if (cart.items.length === 0) {
           showToast('Your cart is empty. Add items to checkout.');
         }
+      }
+      
+      function renderContinueOrderSummary() {
+        const continueOrderSummary = document.getElementById('continueOrderSummary');
+        const continueSubtotal = document.getElementById('continueSubtotal');
+        const continueTotal = document.getElementById('continueTotal');
+        const deliveryCharges = 50;
+        
+        if (!continueOrderSummary || cart.items.length === 0) return;
+        
+        const subtotalAmount = cart.total;
+        const totalAmount = subtotalAmount + deliveryCharges;
+        
+        const orderItemsHTML = cart.items.map(item => `
+          <div class="checkout-order-item">
+            <img src="${item.image || 'products/couple ring.jpg'}" alt="${item.title}" onerror="this.src='products/couple ring.jpg'">
+            <div class="checkout-order-item-details">
+              <div class="item-name">${item.title}</div>
+              <div class="item-price">₹${item.price}</div>
+              <div class="item-quantity">Quantity: ${item.quantity || 1}</div>
+            </div>
+          </div>
+        `).join('');
+        
+        continueOrderSummary.innerHTML = orderItemsHTML;
+        
+        if (continueSubtotal) continueSubtotal.textContent = `₹${subtotalAmount.toFixed(2)}`;
+        if (continueTotal) continueTotal.textContent = `₹${totalAmount.toFixed(2)}`;
+      }
+      
+      function renderContinueOrderSummaryLogin() {
+        const continueOrderSummaryLogin = document.getElementById('continueOrderSummaryLogin');
+        const continueSubtotalLogin = document.getElementById('continueSubtotalLogin');
+        const continueTotalLogin = document.getElementById('continueTotalLogin');
+        const deliveryCharges = 50;
+        
+        if (!continueOrderSummaryLogin || cart.items.length === 0) return;
+        
+        const subtotalAmount = cart.total;
+        const totalAmount = subtotalAmount + deliveryCharges;
+        
+        const orderItemsHTML = cart.items.map(item => `
+          <div class="checkout-order-item">
+            <img src="${item.image || 'products/couple ring.jpg'}" alt="${item.title}" onerror="this.src='products/couple ring.jpg'">
+            <div class="checkout-order-item-details">
+              <div class="item-name">${item.title}</div>
+              <div class="item-price">₹${item.price}</div>
+              <div class="item-quantity">Quantity: ${item.quantity || 1}</div>
+            </div>
+          </div>
+        `).join('');
+        
+        continueOrderSummaryLogin.innerHTML = orderItemsHTML;
+        
+        if (continueSubtotalLogin) continueSubtotalLogin.textContent = `₹${subtotalAmount.toFixed(2)}`;
+        if (continueTotalLogin) continueTotalLogin.textContent = `₹${totalAmount.toFixed(2)}`;
+      }
+      
+      function showAddressFormSection() {
+        checkoutLoginSignupSection.style.display = 'none';
+        addressFormSection.style.display = 'flex';
+        paymentMethodSection.style.display = 'none';
+        renderAddressOrderSummary();
       }
       
       function renderPaymentOrderSummary() {
@@ -4029,8 +4246,15 @@
         setCurrentUser(user);
         showToast('Account created successfully!');
         
-        // Show address form
-        showAddressFormSection();
+        // Hide signup form and show continue button
+        checkoutForm.style.display = 'none';
+        const continueSection = document.getElementById('continueToAddressSection');
+        if (continueSection) {
+          continueSection.style.display = 'flex';
+          renderContinueOrderSummary();
+          // Scroll to top to show the button
+          continueSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       });
 
       // Handle checkout login form submission
@@ -4062,7 +4286,25 @@
         setCurrentUser(user);
         showToast('Login successful!');
         
-        // Show address form
+        // Hide login form and show continue button
+        checkoutLoginForm.style.display = 'none';
+        const continueSectionLogin = document.getElementById('continueToAddressSectionLogin');
+        if (continueSectionLogin) {
+          continueSectionLogin.style.display = 'flex';
+          renderContinueOrderSummaryLogin();
+          // Scroll to top to show the button
+          continueSectionLogin.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+      
+      // Handle continue to address button clicks
+      continueToAddressBtn?.addEventListener('click', () => {
+        document.getElementById('continueToAddressSection').style.display = 'none';
+        showAddressFormSection();
+      });
+      
+      continueToAddressBtnLogin?.addEventListener('click', () => {
+        document.getElementById('continueToAddressSectionLogin').style.display = 'none';
         showAddressFormSection();
       });
       
@@ -4093,7 +4335,10 @@
           setAsDefault
         };
         
-        // Save address data
+        // Save address to saved addresses list
+        saveAddress(addressData);
+        
+        // Save address data for checkout
         localStorage.setItem('checkoutAddressData', JSON.stringify(addressData));
         
         // If set as default, update user profile
@@ -4148,6 +4393,20 @@
         
         // After successful payment (simulated)
         setTimeout(() => {
+          // Save address to user's saved addresses if not already saved
+          if (addressData) {
+            const parsedAddress = JSON.parse(addressData);
+            const addresses = getSavedAddresses();
+            const addressExists = addresses.some(addr => 
+              addr.locality === parsedAddress.locality &&
+              addr.city === parsedAddress.city &&
+              addr.pincode === parsedAddress.pincode
+            );
+            if (!addressExists) {
+              saveAddress(parsedAddress);
+            }
+          }
+          
           showToast('Order placed successfully! Thank you for your purchase.');
           // Clear cart after successful order
           cart.items = [];
@@ -4453,21 +4712,18 @@
       });
 
       modalBuyNowBtn?.addEventListener('click', () => {
-        if (!activeProductId) return;
-        const product = allProducts.find(p => p.id === activeProductId);
-        if (!product) return;
-        // Clear cart and add only this product for Buy Now
-        cart.items = [];
-        cart.total = 0;
-        addProductToCartData({ 
-          title: product.title, 
-          variant: product.subtitle, 
-          price: product.price,
-          image: product.image
-        });
-            renderCart();
+        const currentUser = getCurrentUser();
         closeProductModal();
-        setTimeout(() => openCheckoutModal(), 300);
+        
+        if (!currentUser) {
+          // User not logged in - show login modal
+          // Set a flag to open address selection after login
+          localStorage.setItem('pendingCheckout', 'true');
+          setTimeout(() => openLoginModal(), 300);
+            } else {
+          // User already logged in - show address selection interface
+          setTimeout(() => openAddressSelectionModal(), 300);
+        }
       });
 
       // Mobile search modal
