@@ -3820,7 +3820,7 @@
         if (pendingCheckout === 'true') {
           localStorage.removeItem('pendingCheckout');
           closeLoginModalFunc();
-          setTimeout(() => openCheckoutModal(), 300);
+          setTimeout(() => openAddressSelectionModal(), 300);
         } else {
           closeLoginModalFunc();
         }
@@ -3901,7 +3901,7 @@
         if (pendingCheckout === 'true') {
           localStorage.removeItem('pendingCheckout');
           closeLoginModalFunc();
-          setTimeout(() => openCheckoutModal(), 300);
+          setTimeout(() => openAddressSelectionModal(), 300);
         } else {
           closeLoginModalFunc();
         }
@@ -3937,25 +3937,19 @@
           
           const currentUser = getCurrentUser();
           
-          // If user is already logged in, show address form directly
+          // If user is already logged in, show address selection first
           if (currentUser) {
             checkoutLoginSignupSection.style.display = 'none';
-            addressFormSection.style.display = 'flex';
+            addressFormSection.style.display = 'none';
+            addressSelectionSection.style.display = 'flex';
             paymentMethodSection.style.display = 'none';
-            renderAddressOrderSummary();
-            // Pre-fill name and contact from user profile if available
-            if (currentUser.name) {
-              const addressNameInput = document.getElementById('addressName');
-              if (addressNameInput) addressNameInput.value = currentUser.name;
-            }
-            if (currentUser.phone) {
-              const addressContactInput = document.getElementById('addressContact');
-              if (addressContactInput) addressContactInput.value = currentUser.phone;
-            }
+            renderAddressList();
+            renderAddressSelectionOrderSummary();
           } else {
             // Show login/signup forms
             checkoutLoginSignupSection.style.display = 'block';
             addressFormSection.style.display = 'none';
+            addressSelectionSection.style.display = 'none';
             paymentMethodSection.style.display = 'none';
             newCustomerBtn?.classList.add('active');
             existingCustomerBtn?.classList.remove('active');
@@ -4024,6 +4018,128 @@
         
         if (continueSubtotalLogin) continueSubtotalLogin.textContent = `₹${subtotalAmount.toFixed(2)}`;
         if (continueTotalLogin) continueTotalLogin.textContent = `₹${totalAmount.toFixed(2)}`;
+      }
+      
+      // Address management functions
+      function getSavedAddresses() {
+        const currentUser = getCurrentUser();
+        if (!currentUser) return [];
+        const addresses = localStorage.getItem(`userAddresses_${currentUser.email}`);
+        return addresses ? JSON.parse(addresses) : [];
+      }
+      
+      function saveAddress(addressData) {
+        const currentUser = getCurrentUser();
+        if (!currentUser) return;
+        const addresses = getSavedAddresses();
+        const newAddress = {
+          id: Date.now().toString(),
+          ...addressData,
+          createdAt: new Date().toISOString()
+        };
+        addresses.push(newAddress);
+        localStorage.setItem(`userAddresses_${currentUser.email}`, JSON.stringify(addresses));
+        return newAddress;
+      }
+      
+      function openAddressSelectionModal() {
+        if (!checkoutModalOverlay) {
+          console.error('checkoutModalOverlay not found');
+          return;
+        }
+        
+        if (cart.items.length === 0) {
+          showToast('Your cart is empty. Please add items to cart first.');
+          return;
+        }
+        
+        checkoutModalOverlay.classList.add('active');
+        checkoutModalOverlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        
+        // Hide all sections
+        if (checkoutLoginSignupSection) checkoutLoginSignupSection.style.display = 'none';
+        if (addressFormSection) addressFormSection.style.display = 'none';
+        if (addressSelectionSection) addressSelectionSection.style.display = 'flex';
+        if (paymentMethodSection) paymentMethodSection.style.display = 'none';
+        
+        // Render address list and order summary
+        renderAddressList();
+        renderAddressSelectionOrderSummary();
+        
+        activeModal = 'checkout';
+        showHeaderNavButtons();
+      }
+      
+      function renderAddressList() {
+        if (!addressListContainer || !noAddressMessage) return;
+        const addresses = getSavedAddresses();
+        
+        if (addresses.length === 0) {
+          addressListContainer.style.display = 'none';
+          noAddressMessage.style.display = 'block';
+        } else {
+          addressListContainer.style.display = 'grid';
+          noAddressMessage.style.display = 'none';
+          
+          addressListContainer.innerHTML = addresses.map((addr, index) => `
+            <div class="address-card" data-address-id="${addr.id}" ${index === 0 ? 'data-selected="true"' : ''}>
+              <div class="address-card-header">
+                <div style="flex: 1;">
+                  <div class="address-card-name">${addr.name}</div>
+                  <div class="address-card-details">
+                    ${addr.locality}, Near ${addr.near}<br>
+                    ${addr.city}, ${addr.state} - ${addr.pincode}<br>
+                    Contact: ${addr.contact}
+                  </div>
+                </div>
+                <input type="radio" name="selectedAddress" value="${addr.id}" class="address-card-radio" ${index === 0 ? 'checked' : ''} />
+              </div>
+            </div>
+          `).join('');
+          
+          // Add click handlers to address cards
+          addressListContainer.querySelectorAll('.address-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+              if (e.target.type !== 'radio') {
+                const radio = card.querySelector('input[type="radio"]');
+                if (radio) {
+                  radio.checked = true;
+                  document.querySelectorAll('.address-card').forEach(c => c.classList.remove('selected'));
+                  card.classList.add('selected');
+                }
+              }
+            });
+          });
+        }
+      }
+      
+      function renderAddressSelectionOrderSummary() {
+        const addressSelectionOrderSummary = document.getElementById('addressSelectionOrderSummary');
+        const addressSelectionSubtotal = document.getElementById('addressSelectionSubtotal');
+        const addressSelectionTotal = document.getElementById('addressSelectionTotal');
+        const deliveryCharges = 50;
+        
+        if (!addressSelectionOrderSummary || cart.items.length === 0) return;
+        
+        const subtotalAmount = cart.total;
+        const totalAmount = subtotalAmount + deliveryCharges;
+        
+        const orderItemsHTML = cart.items.map(item => `
+          <div class="checkout-order-item">
+            <img src="${item.image || 'products/couple ring.jpg'}" alt="${item.title}" onerror="this.src='products/couple ring.jpg'">
+            <div class="checkout-order-item-details">
+              <div class="item-name">${item.title}</div>
+              <div class="item-price">₹${item.price}</div>
+              <div class="item-quantity">Quantity: ${item.quantity || 1}</div>
+            </div>
+          </div>
+        `).join('');
+        
+        addressSelectionOrderSummary.innerHTML = orderItemsHTML;
+        
+        if (addressSelectionSubtotal) addressSelectionSubtotal.textContent = `₹${subtotalAmount.toFixed(2)}`;
+        if (addressSelectionTotal) addressSelectionTotal.textContent = `₹${totalAmount.toFixed(2)}`;
       }
       
       function showAddressFormSection() {
@@ -4444,7 +4560,7 @@
         favoritesBody.innerHTML = `
           <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
             ${favoriteProducts.map(p => `
-              <article class="card" data-id="${p.id}" style="position:relative;">
+              <a class="card" data-id="${p.id}" style="position:relative; text-decoration:none; color:inherit;" href="${window.location.pathname}?product=${encodeURIComponent(p.id)}" target="_blank" rel="noopener noreferrer">
                 <div class="media">
                   <img src="${p.image}" alt="${p.title}" />
                   <button class="favorite-btn active" data-product-id="${p.id}" aria-label="Remove from favorites" onclick="event.stopPropagation(); toggleFavorite('${p.id}');">
@@ -4461,18 +4577,10 @@
                     <button class="add-btn" onclick="event.stopPropagation(); addProductToCartData({title: '${p.title.replace(/'/g, "\\'")}', variant: '${p.subtitle.replace(/'/g, "\\'")}', price: ${p.price}}); renderCart(); showToast('Added to cart');">Add</button>
                   </div>
                 </div>
-              </article>
+              </a>
             `).join('')}
           </div>
         `;
-        
-        // Bind click events for product cards
-        favoritesBody.querySelectorAll('.card[data-id]').forEach(card => {
-          card.addEventListener('click', () => {
-            const id = card.getAttribute('data-id');
-            if (id) openProductModal(id);
-          });
-        });
       }
 
       // Diwali promo slider autoplay
@@ -4644,9 +4752,13 @@
           </article>
         `).join('');
         productSuggestions.querySelectorAll('[data-suggestion-id]').forEach(card => {
-          card.addEventListener('click', () => {
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target.closest('input') || e.target.closest('a')) return;
             const id = card.getAttribute('data-suggestion-id');
-            openProductModal(id);
+            if (id) {
+              const productUrl = `${window.location.origin}${window.location.pathname}?product=${encodeURIComponent(id)}`;
+              window.open(productUrl, '_blank', 'noopener,noreferrer');
+            }
           });
         });
       }
@@ -4688,12 +4800,7 @@
       }
 
       function bindProductCardClicks() {
-        document.querySelectorAll('.card').forEach(card => {
-          card.addEventListener('click', () => {
-            const id = card.getAttribute('data-id');
-            if (id) openProductModal(id);
-          });
-        });
+        // No-op: navigation handled by anchor tags on cards
       }
 
       productQueryForm?.addEventListener('submit', (e) => {
@@ -4712,18 +4819,7 @@
       });
 
       modalBuyNowBtn?.addEventListener('click', () => {
-        const currentUser = getCurrentUser();
-        closeProductModal();
-        
-        if (!currentUser) {
-          // User not logged in - show login modal
-          // Set a flag to open address selection after login
-          localStorage.setItem('pendingCheckout', 'true');
-          setTimeout(() => openLoginModal(), 300);
-            } else {
-          // User already logged in - show address selection interface
-          setTimeout(() => openAddressSelectionModal(), 300);
-        }
+        // Buy Now button - functionality removed
       });
 
       // Mobile search modal
@@ -5173,11 +5269,12 @@
         const favorites = getFavorites();
         const html = list.map(p => {
           const isFavorite = favorites.includes(p.id);
+          const href = `${window.location.pathname}?product=${encodeURIComponent(p.id)}`;
           return `
-          <article class="card" data-category="${p.category}" data-id="${p.id}">
+          <a class="card" data-category="${p.category}" data-id="${p.id}" href="${href}" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:inherit;">
             <div class="media">
               <img src="${p.image}" alt="${p.title}" />
-              <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-product-id="${p.id}" aria-label="Add to favorites" onclick="event.stopPropagation(); toggleFavorite('${p.id}')">
+              <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-product-id="${p.id}" aria-label="Add to favorites" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite('${p.id}')">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -5188,14 +5285,28 @@
               <div class="subtitle">${p.subtitle}</div>
               <div class="price-row-card"><div>₹${p.price}</div></div>
             </div>
-          </article>
+          </a>
         `;
         }).join('');
         productsGrid.innerHTML = html;
         if (productCountEl) productCountEl.textContent = String(list.length);
-        bindProductCardClicks();
+        // No click binding needed; anchors handle navigation
         updateFavoritesCount();
       }
+
+      // Check for product in URL (query ?product= or hash #product-)
+      function checkProductFromUrl() {
+        const url = new URL(window.location.href);
+        const productId = url.searchParams.get('product') || (url.hash.startsWith('#product-') ? url.hash.replace('#product-', '') : '');
+        if (productId && allProducts.length > 0) {
+          setTimeout(() => {
+            openProductModal(productId);
+          }, 300);
+        }
+      }
+      
+      window.addEventListener('hashchange', checkProductFromUrl);
+      window.addEventListener('popstate', checkProductFromUrl);
 
       async function loadProducts() {
         try {
@@ -5205,6 +5316,9 @@
           const uniq = Array.from(new Set(allProducts.map(p => p.category)));
           categoriesFromData = uniq.map(c => ({ key: c, label: c.replace(/-/g, ' ').replace(/\b\w/g, m => m.toUpperCase()) }));
           renderAds(adsBottom);
+          
+          // Check for product param/hash on page load
+          checkProductFromUrl();
         } catch (e) {
           console.error('Failed to load products.json', e);
         }
